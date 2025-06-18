@@ -1,0 +1,180 @@
+@startuml "BolsaEmpleoLite"
+!define RECTANGLE class
+title Diagrama de clases sin métodos
+skinparam linetype ortho
+skinparam classFontSize 14
+skinparam classFontStyle bold
+skinparam classBackgroundColor #FDF6E3
+skinparam classBorderColor #586E75
+skinparam classArrowColor #268BD2
+skinparam classHeaderBackgroundColor #93A1A1
+skinparam classHeaderFontColor #073642
+skinparam classHeaderFontSize 16
+skinparam classHeaderFontStyle bold
+skinparam classAttributeBackgroundColor #EEE8D5
+skinparam classAttributeFontColor #586E75
+skinparam classAttributeFontSize 14
+skinparam classAttributeFontStyle normal
+skinparam classMethodBackgroundColor #FDF6E3
+skinparam classMethodFontColor #586E75
+skinparam classMethodFontSize 14
+skinparam classMethodFontStyle normal
+skinparam classArrowThickness 2
+skinparam classArrowFontSize 14
+skinparam classArrowFontStyle normal
+skinparam classArrowColor #268BD2   
+skinparam classArrowFontColor #586E75
+skinparam classArrowLineColor #586E75
+skinparam classArrowLineThickness 1.5
+skinparam classArrowLineStyle solid
+skinparam classArrowLineColor #586E75
+
+abstract class Usuario{
+# id: String
+# username: String
+# password: String
+# email: String
+# nombre: String
+# apellido: String
+# telefono: String
+# direccion: String
+# fechaRegistro: Date
+# identificacion: String
+# tipoID: tipoId
+# fechaNacimiento: Date
+
+}
+
+enum tipoId{
++ CEDULA
++ PERMISO DE TRABAJO
++ VISA
++ CEDULA EXTRANJERA
++ RUT
+}
+
+enum ModalidadDeTrabajo{
++ PRESENCIAL
++ REMOTO
++ HIBRIDO
+}
+
+enum Institucion{
++ Colegio
++ Seminario
++ Universidad
++ Bootcamp
++ Otro
+}
+
+class Empleado extends Usuario{
+- cv: String
+- habilidades: ArrayList<String>
+- idiomas: ArrayList<String>
+- experienciaLaboral: ArrayList<ExperienciaLaboral>
+- referenciasPersonales: ArrayList<ReferenciaPersonal>
+- logrosEducativos: ArrayList<Educacion>
+}
+
+class Educacion{
+- institucion: String
+- tipoInstituto: Institucion
+- titulo: String
+- inicio: Date
+- termino: Date
+- CursandoActualmente: boolean
+- pais: String
+- departamento: String
+- ciudad: String
+}
+
+class ExperienciaLaboral{
+- nombreEmpresa: String
+- paisEmpresa: String
+- modalidadDeTrabajo: ModalidadDeTrabajo
+- cargo: String
+- inicio: Date
+- termino: Date
+- trabajaActualmente: boolean
+- JefeInmediato_Nombre: String
+- JefeInmediato_Telefono: String
+- funcion: String
+- detalles: String
+}
+
+
+class ReferenciaPersonal{
+- nombre: String
+- telefono: String
+- Parentezco: String
+
+}
+
+class Empleador extends Usuario{
+- idEmpresa: String
+- OfertasPublicadas: ArrayList<OfertaEmpleo>
+}
+
+class OfertaEmpleo{
+- id: String
+- idEmpleador: String
+- cargo: String
+- empresa: String
+- ubicacion: String
+- descripcion: String
+- requisitos: String
+- salario: String
+- fechaPublicacion: Date
+- fechaExpiracion: Date
+- tipoContrato: String
+- modalidad: ModalidadDeTrabajo
+- postulados: ArrayList<Empleado>
+}
+
+class Empresa{
+- id: String
+- nombre: String
+- descripcion: String
+- logo: String
+- telefono: String
+- direccion: String
+- email: String
+- web: String
+- tipoEmpresa: String
+- NIT: String
+- representante: String
+- identificacionRepresentante: String
+- tipoIdentificacionRepresentante: tipoId
+- ofertas: ArrayList<OfertaEmpleo>
+- empleados: ArrayList<Empleado>
+- ofertasDesactivadas: ArrayList<OfertaEmpleo>
+}
+
+'relaciones
+
+Usuario -- tipoId
+
+
+Empresa "1" *-- "*" Empleador: la empresa tiene
+Empleador "1" --> "*" OfertaEmpleo: puede publicar
+
+OfertaEmpleo "*" -- "*" Empleado: puede tener
+
+Empleado "1" *-- "*" ReferenciaPersonal
+Empleado "1" *-- "*" ExperienciaLaboral
+Empleado "1" *-- "*" Educacion
+
+note left of Usuario
+    Esta clase representa a los usuarios de mi pagina,
+    pueden ser empleadores o empleados
+end note
+
+note right of Empleador
+    Los empleadores son usuarios empleados de una empresa
+    estos pueden crear Ofertas de empleo.
+end note
+
+note right of Empleado
+    Esta clase representa a los usuarios que buscan empleo
+end note
+@enduml

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de usuarios</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 h-screen w-screen text-center text-gray-700 font-sans font-light text-xl">
+    <header>
+        <h1 class="text-cyan-400 text-3xl">Panel de usuarios</h1>
+    </header>
+    <main>
+        <h2>Bienvenido</h2>
+        <p>Total de usuarios registrados: <span class="font-bold text-cyan-400" id="total-usuarios"></span></p>
+        <table class="table-auto w-full border-separate border-spacing-6 p-8 border border-gray-300 shadow bg-white rounded-lg overflow-hidden text-gray-700 mt-5 mb-5 shadow-lg hover:shadow-xl transition-all duration-500 ease-in-out transform hover:shadow-2xl hover:bg-gray-100">
+            <thead class="bg-gray-200 rounded p-2 text-gray-600 uppercase text-sm leading-normal columns-3xs text-center">
+                <th>#</th>
+                <th>user</th>
+                <th>email</th>
+                <th>nombre</th>
+                <th>apellido</th>
+                <th>telefono</th>
+                <th>direccion</th>
+                <th>fehca de registro</th>
+                <th>identificación</th>
+                <th>tipo de identificación</th>
+                <th>fecha de nacimiento</th>
+                <th>acciones</th>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </main>
+    <footer></footer>
+    <script>
+        const tbody = document.getElementById("tbody");
+        function formatearFecha(fecha) {
+            const d = new Date(fecha);
+            const dia = (d.getDate()+1).toString().padStart(2, '0');
+            const mes = (d.getMonth() + 1).toString().padStart(2, '0');
+            const anio = d.getFullYear();
+            return `${dia}/${mes}/${anio}`;
+        }
+
+        fetch("http://localhost:8080/users/count").then(response => response.json()).then(data => {
+            document.getElementById("total-usuarios").innerText = data;
+        });
+
+        fetch("http://localhost:8080/users/list").then(response => response.json()).then(data => {
+            console.log(data);
+            data.forEach(user =>{
+                let tr = document.createElement("tr");
+                let registro = new Date(user.fechaRegistro);
+                const week = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
+
+                let contenido = '<td>'+data.indexOf(user)+'</td>'+
+                                '<td>'+user.username+'</td>'+
+                                '<td>'+ user.email + '</td>'+
+                                '<td>'+ user.nombre+ '</td>'+
+                                `<td> ${user.apellido}</td>`+
+                                `<td> ${user.telefono}</td>`+
+                                `<td>${user.direccion}</td>`+
+                                `<td>${week[registro.getDay()]+" "+registro.getDate()+"-"+registro.getMonth()+"-"+registro.getFullYear()+" "+registro.getHours()+":"+registro.getMinutes()}</td>`+
+                                `<td>${user.identificacion}</td>`+
+                                `<td>${user.tipoID}</td>`+
+                                `<td>${formatearFecha(user.fechaNacimiento)}</td>`+
+                                `<td class="flex justify-center items-center gap-2">
+                                    <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="http://localhost:8080/users/edit/${user.id})">Editar</a>
+                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="eliminarUsuario(${user.id})">Eliminar</button>
+                                </td>`;
+                tr.innerHTML = contenido;
+                tbody.appendChild(tr);
+            })
+        })
+    </script>
+</body>
+</html>

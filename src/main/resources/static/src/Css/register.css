@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* --- Estilos Generales --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column; 
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- Header --- */
+.navbar {
+    display: flex;
+    background-color: #fff;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%; 
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.5em; 
+    color: #333;
+}
+
+.logo img {
+    height: 35px; 
+    margin-right: 10px;
+}
+
+.nav-links ul {
+    display: flex;
+    gap: 30px; 
+}
+
+.subsections {
+    font-weight: 500;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.subsections:hover {
+    color: lawngreen; 
+}
+
+.btn-cta {
+    background-color: #80ff9c; 
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px; 
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 170, 255, 0.2);
+    white-space: nowrap; /* Evita que el texto del botón se rompa */
+}
+
+.btn-cta:hover {
+    background-color: #afffc0; 
+    transform: translateY(-2px); 
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    display: none; 
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px; 
+    height: 25px; 
+    cursor: pointer;
+    z-index: 1001; 
+}
+
+.hamburger-menu .bar {
+    width: 100%;
+    height: 3px; 
+    background-color: #333; 
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+
+.hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg); 
+}
+/* main content */
+
+main {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px; 
+}
+
+.flex-main {
+    display: flex;
+    margin-top: 4px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    overflow: hidden;
+    max-width: 960px; 
+    width: 100%; 
+    transform: scale(1.05);
+}
+
+.formulario-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+}
+
+.formulario-container h2 {
+    font-size: 2.2em;
+    color: #494344; 
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.formulario-container form {
+    width: 100%; 
+    max-width: 350px; 
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.formulario-container label {
+    align-self: flex-start; 
+    font-weight: 600;
+    color: #555;
+}
+
+.formulario-container input[type="text"],
+.formulario-container input[type="email"],
+.formulario-container input[type="password"] {
+    width: 100%;
+    padding: 10px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; 
+}
+
+.formulario-container input[type="text"]:focus,
+.formulario-container input[type="email"]:focus,
+.formulario-container input[type="password"]:focus {
+    border-color: #3c3c3c;
+    outline: none; 
+}
+
+.p {
+    color: gray;
+}
+
+.forget-password {
+    color: #92e4ff;
+    text-decoration: underline;
+} 
+
+.btn-submit {
+    background-color: lightgreen;
+    color: #fff;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 6px; 
+    box-shadow: 0 4px 8px rgba(0, 170, 255, 0.2);
+}
+
+.btn-submit:hover {
+    background-color: #97ff67;
+    color: white;
+}
+
+.separador {
+    border: 1px #ebebeb solid;
+    border-bottom: #ebebeb;
+}
+
+.gsi-material-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid #747775;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-family: 'Roboto', arial, sans-serif;
+    font-size: 14px;
+    height: 42px; 
+    padding: 0 12px;
+    width: 100%; 
+    max-width: 400px;
+    min-width: min-content;
+    margin-top: 10px; 
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.gsi-material-button .gsi-material-button-content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.gsi-material-button .gsi-material-button-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.gsi-material-button:hover {
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px rgba(60, 64, 67, 0.15);
+}
+
+.gsi-material-button:disabled {
+    cursor: default;
+    background-color: #ffffff61;
+    border-color: #1f1f1f1f;
+}
+
+.gsi-material-button:disabled .gsi-material-button-contents,
+.gsi-material-button:disabled .gsi-material-button-icon {
+    opacity: 38%;
+}
+
+.register-info-panel { 
+    flex: 1;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    background-color: #a6e0a1;
+    color: #fff; 
+    position: relative; 
+    overflow: hidden; 
+}
+
+.register-info-panel .texto-motivacional {
+    position: static; 
+    transform: none; 
+    color: #fff;
+    background-color: transparent; 
+    padding: 0; 
+    border-radius: 0;
+    text-align: center;
+    max-width: 100%; 
+    box-shadow: none; 
+    z-index: auto;
+}
+
+.register-info-panel .texto-motivacional h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.register-info-panel .texto-motivacional p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    max-width: 400px; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer {
+  background-color: #5c5c5c;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9em;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 5%; 
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #fff;
+        position: absolute; 
+        top: 100%; 
+        left: 0;
+        right: 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        padding: 20px 0;
+        text-align: center;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-out;
+    }
+
+    .nav-links.active {
+        display: flex;
+    transform: translateY(0);
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+        gap: 15px; 
+        width: auto; 
+        padding: 0 5%; 
+    }
+    .nav-links ul li {
+        margin: 0;
+    }
+    .nav-links ul li a {
+        padding: 10px 0; 
+        display: block;
+        width: 100%;
+    }
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .navbar .logo {
+        font-size: 1.4em; 
+    }
+    .navbar .logo img {
+        height: 30px;
+    }
+
+    .btn-cta {
+        width: auto;
+        margin-top: 10px;
+        padding: 10px 20px;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .flex-main {
+        flex-direction: column; 
+        max-width: 450px; 
+        margin-top: 6px;
+    }
+
+    .formulario-container, .imagelogin {
+        padding: 30px;
+    }
+
+    .formulario-container h2 {
+        font-size: 1.8em;
+    }
+
+    .register-info-panel { 
+        display: none;
+    }
+
+    footer {
+        margin-top: 100px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .formulario-container {
+        padding: 20px;
+    }
+
+    .formulario-container h2 {
+        font-size: 1.5em;
+    }
+
+    .formulario-container input[type="email"],
+    .formulario-container input[type="password"],
+    .btn-submit {
+        font-size: 0.9em;
+        padding: 10px 15px;
+    }
+}

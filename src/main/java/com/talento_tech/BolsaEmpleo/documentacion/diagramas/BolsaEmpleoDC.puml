@@ -1,0 +1,329 @@
+@startuml "BolsaEmpleo diagrama de clases detallado"
+!define RECTANGLE class
+title Diagrama de clases con métodos
+skinparam linetype ortho
+skinparam classFontSize 24
+skinparam classFontStyle bold
+skinparam classBackgroundColor #FDF6E3
+skinparam classBorderColor #586E75
+skinparam classArrowColor #268BD2
+skinparam classHeaderBackgroundColor #93A1A1
+skinparam classHeaderFontColor #041d23
+skinparam classHeaderFontSize 20
+skinparam classHeaderFontStyle bold
+skinparam classAttributeBackgroundColor #EEE8D5
+skinparam classAttributeFontColor #586E75
+skinparam classAttributeFontSize 14
+skinparam classAttributeFontStyle normal
+skinparam classMethodBackgroundColor #FDF6E3
+skinparam classMethodFontColor #586E75
+skinparam classMethodFontSize 14
+skinparam classMethodFontStyle normal
+skinparam classArrowThickness 2
+skinparam classArrowFontSize 14
+skinparam classArrowFontStyle normal
+skinparam classArrowColor #268BD2
+skinparam classArrowFontColor #586E75
+skinparam classArrowLineColor #586E75
+skinparam classArrowLineThickness 2.5
+skinparam classArrowLineStyle solid
+skinparam classArrowLineColor #586E75
+
+abstract class Usuario{
+    # id: String
+    # username: String
+    # password: String
+    # email: String
+    # nombre: String
+    # apellido: String
+    # telefono: String
+    # direccion: String
+    # fechaRegistro: Date
+    # identificacion: String
+    # tipoID: tipoId
+    # fechaNacimiento: Date
+    + {abstract} getTipoUsuario(): String
+    + getApellido(): String
+    + getDireccion(): String
+    + getEmail(): String
+    + getFechaNacimiento(): Date
+    + getFechaRegistro(): Date
+    + getId(): String
+    + getIdentificacion(): String
+    + getNombre(): String
+    + getPassword(): String
+    + getTelefono(): String
+    + getTipoID(): TipoId
+    + getUsername(): String
+    + setApellido(String apellido): void
+    + setDireccion(String direccion): void
+    + setEmail(String email): void
+    + setFechaNacimiento(Date fechaNacimiento): void
+    + setIdentificacion(String identificacion): String
+    + setNombre(String nombre): void
+    + setPassword(String password): void
+    + setTelefono(String telefono): void
+    + setTipoID(TipoId tipo): void
+    + setUSername(String username): void
+
+}
+
+enum tipoId{
+    + CEDULA
+    + PERMISO DE TRABAJO
+    + VISA
+    + CEDULA EXTRANJERA
+    + RUT
+}
+
+enum ModalidadDeTrabajo{
+    + PRESENCIAL
+    + REMOTO
+    + HIBRIDO
+}
+
+enum Institucion{
+    + Colegio
+    + Seminario
+    + Universidad
+    + Bootcamp
+    + Otro
+}
+
+class Empleado extends Usuario{
+    - cv: String
+    - habilidades: ArrayList<String>
+    - idiomas: ArrayList<String>
+    - experienciaLaboral: ArrayList<ExperienciaLaboral>
+    - referenciasPersonales: ArrayList<ReferenciaPersonal>
+    - logrosEducativos: ArrayList<Educacion>
+    + getCv(): String
+    + getExperienciaLabora(): ArrayList<ExperienciaLaboral>
+    + getEducacion(): ArrayList<Educacion>
+    + getHabilidades(): ArrayList<String>
+    + getIdiomas(): ArrayList<String>
+    + getReferencias(): ArrayList<ReferenciaPersonal>
+    + setCv(String src): void
+    + addEducacion(Educacion educacion): void
+    + addExperienciaLaboral(ExperienciaLaboral experiencia): void
+    + addHabilidad(String habilidad): void
+    + addIdioma(String idioma): void
+    + addRefrencia(ReferenciaPersonal referencia): void
+    + removeEducacion(Educacion educacion): void
+    + removeExperienciaLaboral(ExperienciaLaboral experiencia): void
+    + removeHabilidad(String habilidad): void
+    + removeIdioma(String idioma): void
+    + removeReferencia(ReferenciaPersonal referencia): void
+}
+
+class Educacion{
+    - institucion: String
+    - tipoInstituto: Institucion
+    - titulo: String
+    - inicio: Date
+    - termino: Date
+    - CursandoActualmente: boolean
+    - pais: String
+    - departamento: String
+    - ciudad: String
+    + getInstitucion(): String
+    + getTipoInstituto(): Institucion
+    + getTitulo(): String
+    + getInicio(): Date
+    + getTermino(): Date
+    + getCursandoActualmente(): boolean
+    + getPais(): String
+    + getDepartamento(): String
+    + getCiudad(): String
+    + setInstitucion(String institucion): void
+    + setTipoInstituto(Institucion tipoInstituto): void
+    + setTitulo(String titulo): void
+    + setInicio(Date inicio): void
+    + setTermino(Date termino): void
+    + setCursandoActualmente(boolean cursandoActualmente): void
+    + setPais(String pais): void
+    + setDepartamento(String departamento): void
+    + setCiudad(String ciudad): void
+}
+
+class ExperienciaLaboral{
+    - nombreEmpresa: String
+    - paisEmpresa: String
+    - modalidadDeTrabajo: ModalidadDeTrabajo
+    - cargo: String
+    - inicio: Date
+    - termino: Date
+    - trabajaActualmente: boolean
+    - JefeInmediato_Nombre: String
+    - JefeInmediato_Telefono: String
+    - funcion: String
+    - detalles: String
+    + getNombreEmpresa(): String
+    + getPaisEmpresa(): String
+    + getModalidadDeTrabajo(): ModalidadDeTrabajo
+    + getCargo(): String
+    + getInicio(): Date
+    + getTermino(): Date
+    + getTrabajaActualmente(): boolean
+    + getJefeInmediatoNombre(): String
+    + getJefeInmediatoTelefono(): String
+    + getFuncion(): String
+    + getDetalles(): String
+    + setNombreEmpresa(String nombreEmpresa): void
+    + setPaisEmpresa(String paisEmpresa): void
+    + setModalidadDeTrabajo(ModalidadDeTrabajo modalidadDeTrabajo): void
+    + setCargo(String cargo): void
+    + setInicio(Date inicio): void
+    + setTermino(Date termino): void
+    + setTrabajaActualmente(boolean trabajaActualmente): void
+    + setJefeInmediatoNombre(String jefeInmediatoNombre): void
+    + setJefeInmediatoTelefono(String jefeInmediatoTelefono): void
+    + setFuncion(String funcion): void
+    + setDetalles(String detalles): void
+}
+
+
+class ReferenciaPersonal{
+    - nombre: String
+    - telefono: String
+    - Parentezco: String
+    + ReferenciaPersonal(String nombre,String telefono, String Parentezco)
+    + getNombre(): String
+    + getTelefono(): String
+    + getParentezco(): String
+    + setNombre(String nombre): void
+    + setTelefono(String telefono): void
+    + setParentezco(String parentezco): void
+
+}
+
+class Empleador extends Usuario{
+    - idEmpresa: String
+    - OfertasPublicadas: ArrayList<OfertaEmpleo>
+    + getEmpresaID(): String
+    + getOfertasPublicadas(): ArrayList<OfertaEmpleo>
+}
+
+class OfertaEmpleo{
+    - id: String
+    - idEmpleador: String
+    - cargo: String
+    - empresa: String
+    - ubicacion: String
+    - descripcion: String
+    - requisitos: String
+    - salario: String
+    - fechaPublicacion: Date
+    - fechaExpiracion: Date
+    - tipoContrato: String
+    - modalidad: ModalidadDeTrabajo
+    - postulados: ArrayList<Empleado>
+    + getId(): String
+    + getIdEmpleador(): String
+    + getCargo(): String
+    + getEmpresa(): String
+    + getUbicacion(): String
+    + getDescripcion(): String
+    + getRequisitos(): String
+    + getSalario(): String
+    + getFechaPublicacion(): Date
+    + getFechaExpiracion(): Date
+    + getTipoContrato(): String
+    + getModalidad(): ModalidadDeTrabajo
+    + getPostulados(): ArrayList<Empleado>
+    + setId(String id): void
+    + setIdEmpleador(String idEmpleador): void
+    + setCargo(String cargo): void
+    + setEmpresa(String empresa): void
+    + setUbicacion(String ubicacion): void
+    + setDescripcion(String descripcion): void
+    + setRequisitos(String requisitos): void
+    + setSalario(String salario): void
+    + setFechaPublicacion(Date fechaPublicacion): void
+    + setFechaExpiracion(Date fechaExpiracion): void
+    + setTipoContrato(String tipoContrato): void
+    + setModalidad(ModalidadDeTrabajo modalidad): void
+    + addPostulado(Empleado empleado): void
+}
+
+class Empresa{
+    - id: String
+    - nombre: String
+    - descripcion: String
+    - logo: String
+    - telefono: String
+    - direccion: String
+    - email: String
+    - web: String
+    - tipoEmpresa: String
+    - NIT: String
+    - representante: String
+    - identificacionRepresentante: String
+    - tipoIdentificacionRepresentante: tipoId
+    - ofertas: ArrayList<OfertaEmpleo>
+    - empleados: ArrayList<Empleado>
+    - ofertasDesactivadas: ArrayList<OfertaEmpleo>
+    + getId(): String
+    + getNombre(): String
+    + getDescripcion(): String
+    + getLogo(): String
+    + getTelefono(): String
+    + getDireccion(): String
+    + getEmail(): String
+    + getWeb(): String
+    + getTipoEmpresa(): String
+    + getNIT(): String
+    + getRepresentante(): String
+    + getIdentificacionRepresentante(): String
+    + getTipoIdentificacionRepresentante(): tipoId
+    + getOfertas(): ArrayList<OfertaEmpleo>
+    + getEmpleados(): ArrayList<Empleado>
+    + getOfertasDesactivadas(): ArrayList<OfertaEmpleo>
+    + setId(String id): void
+    + setNombre(String nombre): void
+    + setDescripcion(String descripcion): void
+    + setLogo(String logo): void
+    + setTelefono(String telefono): void
+    + setDireccion(String direccion): void
+    + setEmail(String email): void
+    + setWeb(String web): void
+    + setTipoEmpresa(String tipoEmpresa): void
+    + setNIT(String NIT): void
+    + setRepresentante(String representante): void
+    + setIdentificacionRepresentante(String identificacionRepresentante): void
+    + setTipoIdentificacionRepresentante(tipoId tipo): void
+    + addOferta(OfertaEmpleo oferta): void
+    + addEmpleado(Empleado empleado): void
+    + addOfertaDesactivada(OfertaEmpleo oferta): void
+    + removeOferta(OfertaEmpleo oferta): void
+    + removeEmpleado(Empleado empleado): void
+    + removeOfertaDesactivada(OfertaEmpleo oferta): void
+}
+
+'relaciones
+Empresa "1" *-- "*" Empleador: la empresa tiene
+Empleador "1" --> "*" OfertaEmpleo: puede publicar
+
+OfertaEmpleo "*" -- "*" Empleado: puede tener
+
+Empleado "1" *-- "*" ReferenciaPersonal
+Empleado "1" *-- "*" ExperienciaLaboral
+Empleado "1" *-- "*" Educacion
+
+
+
+
+note left of Usuario
+    Esta clase representa a los usuarios de mi pagina,
+    pueden ser empleadores o empleados
+end note
+
+note right of Empleador
+    Los empleadores son usuarios empleados de una empresa
+    estos pueden crear Ofertas de empleo.
+end note
+
+note right of Empleado
+    Esta clase representa a los usuarios que buscan empleo
+end note
+@enduml

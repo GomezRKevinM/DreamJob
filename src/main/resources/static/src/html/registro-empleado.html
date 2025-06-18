@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completar Perfil - Buscador de Empleo | DreamJob</title>
+    <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon"> 
+    <link rel="stylesheet" href="../Css/registro-empleado.css"> </head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a class="logo" href="../../index.html">
+                <img src="../../assets/logo.png" alt="Logo">
+                <span>DreamJob</span>
+            </a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="#" class="subsections">Empleos</a></li>
+                <li><a href="#" class="subsections">Compañías</a></li>
+                <li><a href="#" class="subsections">Soporte</a></li>
+                <li><a href="./login.html" class="btn-cta">Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="flex-main wizard-container">
+            <div class="wizard-sidebar">
+                <h3>Pasos para tu Perfil</h3>
+                <ul class="progress-indicator">
+                    <li class="step-item active" data-step="0">Datos Personales</li>
+                    <li class="step-item" data-step="1">Información Profesional</li>
+                    <li class="step-item" data-step="2">Experiencia Laboral</li>
+                    <li class="step-item" data-step="3">Educación</li>
+                    <li class="step-item" data-step="4">Referencias Personales</li>
+                    <li class="step-item" data-step="5">Revisar y Guardar</li>
+                </ul>
+            </div>
+            <div class="formulario-container">
+                <form id="employeeProfileForm" action="./perfil.html" method="POST" enctype="multipart/form-data">
+                    <h2>Completa tu Perfil de Buscador de Empleo</h2>
+                    <p>¡Vamos a construir tu perfil paso a paso!</p>
+
+                    <div class="form-step active" data-step="0">
+                        <h3>1. Datos Personales</h3>
+                        <div class="step-content-grid">
+                            <div>
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" id="nombre" name="nombre" required>
+                            </div>
+                            <div>
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" id="apellido" name="apellido" required>
+                            </div>
+                            <div>
+                                <label for="telefono">Teléfono:</label>
+                                <input type="number" id="telefono" name="telefono">
+                            </div>
+                            <div>
+                                <label for="direccion">Dirección:</label>
+                                <input type="text" id="direccion" name="direccion">
+                            </div>
+                            <div>
+                                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                <input type="date" id="fecha_nacimiento" name="fechaNacimiento">
+                            </div>
+                            <div>
+                                <label for="tipo_id">Tipo de Identificación:</label>
+                                <select id="tipo_id" name="tipoID" required>
+                                    <option value="">Selecciona uno</option>
+                                    <option value="CEDULA">Cédula</option>
+                                    <option value="PERMISO_DE_TRABAJO">Permiso de Trabajo</option>
+                                    <option value="VISA">Visa</option>
+                                    <option value="CEDULA_EXTRANJERA">Cédula Extranjera</option>
+                                    <option value="RUT">RUT</option>
+                                </select>
+                            </div>
+                            <div class="full-width-field">
+                                <label for="identificacion">Número de Identificación:</label>
+                                <input type="number" id="identificacion" name="identificacion" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="1">
+                        <h3>2. Información Profesional</h3>
+                        <div class="step-content-grid">
+                            <div class="full-width-field">
+                                <label for="cv_file">Subir CV (PDF/DOCX):</label>
+                                <input type="file" class="subir-archivo" id="cv_file" name="cvFile" accept=".pdf,.doc,.docx">
+                                <small>Sube tu currículum para que las empresas puedan verlo. Máx 5MB.</small>
+                            </div>
+
+                            <div class="form-section full-width-field">
+                                <h3>Habilidades
+                                    <button type="button" class="add-item" onclick="addDynamicField('habilidades-container', 'habilidades', 'habilidad')">+</button>
+                                </h3>
+                                <div id="habilidades-container">
+                                    <div class="item-entry">
+                                        <label for="habilidades[0].habilidad">Habilidad:</label>
+                                        <input type="text" name="habilidades[0].habilidad" required placeholder="Ej: Comunicación, Java, Figma">
+                                        <button type="button" class="remove-item" onclick="removeDynamicField(this)">x</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section full-width-field">
+                                <h3>Idiomas
+                                    <button type="button" class="add-item" onclick="addDynamicField('idiomas-container', 'idiomas', 'idioma')">+</button>
+                                </h3>
+                                <div id="idiomas-container">
+                                    <div class="item-entry">
+                                        <label for="idiomas[0].idioma">Idioma:</label>
+                                        <input type="text" name="idiomas[0].idioma" required placeholder="Ej: Inglés, Español, Alemán">
+                                        <button type="button" class="remove-item" onclick="removeDynamicField(this)">x</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="2">
+                        <h3>3. Experiencia Laboral</h3>
+                        <div class="step-content-grid">
+                            <div class="form-section full-width-field">
+                                <button type="button" class="add-item" onclick="addExperienciaLaboral()">Añadir Experiencia</button>
+                                <div id="experiencia-laboral-container">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="3">
+                        <h3>4. Educación</h3>
+                        <div class="step-content-grid">
+                            <div class="form-section full-width-field">
+                                <button type="button" class="add-item" onclick="addEducacion()">Añadir Educación</button>
+                                <div id="educacion-container">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="4">
+                        <h3>5. Referencias Personales</h3>
+                        <div class="step-content-grid">
+                            <div class="form-section full-width-field">
+                                <button type="button" class="add-item" onclick="addReferenciaPersonal()">Añadir Referencia</button>
+                                <div id="referencias-personales-container">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="5">
+                        <h3>6. Revisar y Confirmar</h3>
+                        <p>Por favor, revisa toda la información que has ingresado. Una vez que estés satisfecho, haz clic en "Guardar Perfil".</p>
+                        <div id="review-summary" style="margin-top: 30px; padding: 20px; background-color: #f0f8ff; border-radius: 8px; border: 1px solid #e0f0ff;">
+                            <p>Resumen de tu perfil...</p>
+                        </div>
+                    </div>
+
+                    <div class="wizard-navigation">
+                        <button type="button" class="btn-prev" style="display: none;">Anterior</button>
+                        <button type="button" class="btn-next">Siguiente</button>
+                        <button type="submit" class="btn-submit" style="display: none;">Guardar Perfil</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DreamJob. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../Javascript/menuHamburguesa.js"></script>
+    <script src="../Javascript/register-empleado.js"></script> </body>
+</html>
