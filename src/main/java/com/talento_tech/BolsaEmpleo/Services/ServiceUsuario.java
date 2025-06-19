@@ -6,15 +6,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.net.InetAddress;
 
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
+import com.talento_tech.BolsaEmpleo.Entities.SystemInfo;
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Entities.tipoID;
 
-public class ServiceUsuario {
+import jakarta.servlet.http.HttpServletRequest;
 
-    public ArrayList<Usuario> getAllUsers(){
+public class ServiceUsuario {
+    private static final Archivos gestor = new Archivos();
+    private String ipAddress;
+
+    public ArrayList<Usuario> getAllUsers( HttpServletRequest request){
+        String ipAddress = request.getRemoteAddr();
+        SystemInfo infoGeneral = new SystemInfo("DB", "Se ha solicitado la lista de usuarios desde IP: " + ipAddress);
+        gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/log.txt", infoGeneral.toString());
         String sql = "SELECT * FROM usuarios";
 
         try(Connection connection = DatabaseConexion.getConnection();
@@ -41,11 +50,14 @@ public class ServiceUsuario {
                 user.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
                 user.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
                 users.add(user);
+                SystemInfo userInfo = new SystemInfo("DB", "Se ha obtenido un usuario desde la base de datos: " + user.getUsername());
+                gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/logDB.txt", userInfo.toString());
             }
-        
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
+            SystemInfo infoError = new SystemInfo("DB", "Error al obtener la lista de usuarios desde el servicio de usuario: " + e.getMessage());
+            gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/log.txt", infoError.toString());
             return new ArrayList<Usuario>();
         }
     }

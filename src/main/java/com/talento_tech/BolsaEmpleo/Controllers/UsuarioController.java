@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Services.ServiceUsuario;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/users")
 public class UsuarioController {
@@ -48,16 +50,16 @@ public class UsuarioController {
 
     @GetMapping("/list")
     @ResponseBody
-    public ArrayList<Usuario> listar(){
-        return serviceUsuario.getAllUsers();
+    public ArrayList<Usuario> listar(HttpServletRequest request){
+        return serviceUsuario.getAllUsers(request);
     }
 
     @GetMapping("/count")
-    public Integer contar(){
-        if(listar() == null) {
+    public Integer contar(HttpServletRequest request){
+        if(listar(request) == null) {
             return 0; // Si la lista es nula, retornar 0
         }else{
-            return listar().size();
+            return listar(request).size();
         }// Retornar 0 por ahora como un valor ficticio
     }
 }
