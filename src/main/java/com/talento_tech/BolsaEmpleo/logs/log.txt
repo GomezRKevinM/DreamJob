@@ -10,3 +10,12 @@
 2025-06-18 13:14:44.349 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.24
 2025-06-18 13:14:44.42 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.24
 2025-06-18 13:14:48.203 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.24
+2025-06-18 19:47:43.378 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.6
+2025-06-18 19:47:43.378 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.6
+2025-06-18 19:47:45.512 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.6
+2025-06-18 19:48:18.556 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.6
+2025-06-18 19:48:18.556 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.6
+2025-06-18 19:48:19.392 - DB: Se ha solicitado la lista de usuarios desde IP: 192.168.1.6
+2025-06-18 19:50:28.461 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
+2025-06-18 19:50:28.461 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
+2025-06-18 19:50:29.765 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1

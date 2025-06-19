@@ -35,7 +35,7 @@
     <footer></footer>
     <script>
         const tbody = document.getElementById("tbody");
-        const urlBase = "http://192.168.1.6:8080";
+        const urlBase = "http://localhost:8080/";
         function formatearFecha(fecha) {
             const d = new Date(fecha);
             const dia = (d.getDate()+1).toString().padStart(2, '0');
@@ -44,11 +44,11 @@
             return `${dia}/${mes}/${anio}`;
         }
 
-        fetch(urlBase+"/users/count").then(response => response.json()).then(data => {
+        fetch(`${urlBase}users/count`).then(response => response.json()).then(data => {
             document.getElementById("total-usuarios").innerText = data;
         });
 
-        fetch(urlBase+"/users/list").then(response => response.json()).then(data => {
+        fetch(`${urlBase}users/list`).then(response => response.json()).then(data => {
             console.log(data);
             data.forEach(user =>{
                 let tr = document.createElement("tr");
@@ -67,8 +67,8 @@
                                 `<td>${user.tipoID}</td>`+
                                 `<td>${formatearFecha(user.fechaNacimiento)}</td>`+
                                 `<td class="flex justify-center items-center gap-2">
-                                    <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="http://192.168.1.6:8080/users/edit/${user.id})">Editar</a>
-                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="eliminarUsuario(${user.id})">Eliminar</button>
+                                    <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="${urlBase}users/user/${user.id})">Editar</a>
+                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="${urlBase}users/del/${user.id}">Eliminar</button>
                                 </td>`;
                 tr.innerHTML = contenido;
                 tbody.appendChild(tr);
