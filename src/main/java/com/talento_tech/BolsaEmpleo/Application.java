@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Services.ServiceUsuario;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public class Application extends JFrame {
     BolsaDeEmpleoApplication bolsaDeEmpleoApplication;
 
@@ -37,7 +39,7 @@ public class Application extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         try {
             ServiceUsuario serviceUsuario = new ServiceUsuario();
-            ArrayList<Usuario> usuarios = serviceUsuario.getAllUsers();
+            ArrayList<Usuario> usuarios = serviceUsuario.getAllUsers(null);
 
             for(Usuario usuario : usuarios) {
                 JPanel userPanel = new JPanel();

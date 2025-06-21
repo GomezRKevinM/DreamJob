@@ -55,28 +55,32 @@ ul {
 }
 
 .subsections {
+    font-size: 18px;
     font-weight: 500;
-    color: #555;
+    color: #1f1f1f;
     transition: color 0.3s ease;
 }
 
 .subsections:hover {
+    text-decoration: underline;
+    border-bottom: lawngreen;
     color: lawngreen; 
 }
 
 .btn-cta {
     background-color: #80ff9c; 
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 25px; 
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 170, 255, 0.2);
-    white-space: nowrap; /* Evita que el texto del botón se rompa */
+    color: white; 
+    font-size: larger;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    white-space: nowrap; 
 }
 
+
 .btn-cta:hover {
-    background-color: #afffc0; 
+    background-color: #96ffad;
+    color: whitesmoke;
     transform: translateY(-2px); 
 }
 
@@ -130,7 +134,6 @@ main {
     overflow: hidden;
     max-width: 960px; 
     width: 100%; 
-    transform: scale(1.05);
 }
 
 .formulario-container {
@@ -308,13 +311,22 @@ main {
     margin-right: auto;
 }
 
+.register-empresa {
+    font-size: 2rem;
+    color: #355d2e;
+    text-decoration: underline;
+    font-weight: 600;
+}
+.register-empresa:hover {
+    color: rgb(139, 255, 139);
+}
+
 footer {
-  background-color: #5c5c5c;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  font-size: 0.9em;
-  margin-top: 40px;
+    background-color: #5c5c5c;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px; 
 }
 
 @media (max-width: 768px) {

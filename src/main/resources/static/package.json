@@ -1,5 +1,11 @@
 {
   "devDependencies": {
     "supabase": "^2.26.9"
-  }
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "github:supabase/supabase-js",
+    "@tailwindcss/vite": "^4.1.10",
+    "tailwindcss": "^4.1.10"
+  },
+  "type": "module"
 }
