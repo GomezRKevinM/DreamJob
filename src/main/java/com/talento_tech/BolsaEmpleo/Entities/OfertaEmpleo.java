@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class OfertaEmpleo {
     private long id;
-    private long empleado_id;
+    private long empleador_id;
     private long empresa_id;
     private String cargo;
     private String ubicacion;
@@ -29,7 +29,7 @@ public class OfertaEmpleo {
 
     public OfertaEmpleo(long id, long empleado_id, long empresa_id, String cargo, String ubicacion, String descripcion, String nombreEmpresa, String requisitos, Double salario, Timestamp fechaPublicacion, Date fechaExpiracion, String tipoContrato, String modalidad, String pais, String ciudad, String departamento, String nivelEstudios, String experienciaLaboral) {
         this.id = id;
-        this.empleado_id = empleado_id;
+        this.empleador_id = empleado_id;
         this.empresa_id = empresa_id;
         this.cargo = cargo;
         this.ubicacion = ubicacion;
@@ -57,11 +57,11 @@ public class OfertaEmpleo {
     }
 
     public long getEmpleado_id() {
-        return empleado_id;
+        return empleador_id;
     }
 
     public void setEmpleado_id(long empleado_id) {
-        this.empleado_id = empleado_id;
+        this.empleador_id = empleado_id;
     }
 
     public long getEmpresa_id() {

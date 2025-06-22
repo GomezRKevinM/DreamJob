@@ -4,6 +4,8 @@ package com.talento_tech.BolsaEmpleo.Controllers;
 import java.sql.*;
 import java.util.ArrayList;
 
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
@@ -13,9 +15,12 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 @RestController
-@RequestMapping("/users")
+    @RequestMapping("/users")
 @Tag(name = "Usuario Controller", description = "Controlador para manejar las operaciones de usuario")
 public class UsuarioController {
     ServiceUsuario serviceUsuario;
@@ -40,6 +45,16 @@ public class UsuarioController {
         }
         // Aquí debería ir la lógica para obtener el usuario de la base de datos
         return new Usuario(); // Retornar un usuario ficticio por ahora
+    }
+
+    @GetMapping("/profile/{id}")
+    @ResponseBody
+    @Operation(summary = "Cargar el perfil de un usuario por ID")
+    @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
+    public ResponseEntity<Void> redirigirAPerfil(@PathVariable Long id) {
+        return ResponseEntity.status(302)
+                .header("Location", "http://localhost:8080/src/html/perfil.html?id=" + id)
+                .build();
     }
 
     @PutMapping("/edit")
@@ -75,4 +90,28 @@ public class UsuarioController {
             return listar(request).size();
         }// Retornar 0 por ahora como un valor ficticio
     }
+
+    @GetMapping("/login")
+    @ResponseBody
+    @Operation(summary = "Iniciar sesión de usuario", description = "Permite a un usuario iniciar sesión proporcionando su nombre de usuario y contraseña.")
+    @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
+    public Usuario login(@RequestBody Usuario user) {
+        return serviceUsuario.login(user.getUsername(), user.getPassword());
+    }
+
+    @GetMapping("/logout")
+    @ResponseBody
+    @Operation(summary = "Cerrar sesión de usuario", description = "Permite a un usuario cerrar sesión.")
+    @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
+    public void logout() {
+        serviceUsuario.logout();
+    }
+
+    @GetMapping("/user-session")
+    @ResponseBody
+    @Operation(summary = "Obtener información de la sesión de usuario")
+    public Usuario getUserSessionInfo() {
+        return serviceUsuario.getUserSession();
+    }
+    
 }

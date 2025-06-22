@@ -1,8 +1,6 @@
 package com.talento_tech.BolsaEmpleo.Entities;
 
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Empleado {
