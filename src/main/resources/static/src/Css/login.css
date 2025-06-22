@@ -322,12 +322,12 @@ main {
 }
 
 footer {
-  background-color: #5c5c5c;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-  font-size: 1em;
-  margin-top: 90px;
+    background-color: #e4e4e4;
+    color: #2c2c2c;
+    text-align: center;
+    padding: 10px;
+    font-size: 1em;
+    margin-top: 90px;
 }
 
 /* --- Media Queries --- */

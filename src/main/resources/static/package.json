@@ -3,9 +3,8 @@
     "supabase": "^2.26.9"
   },
   "dependencies": {
-    "@supabase/supabase-js": "github:supabase/supabase-js",
-    "@tailwindcss/vite": "^4.1.10",
-    "tailwindcss": "^4.1.10"
+    "@fluentui/svg-icons": "^1.1.304",
+    "@supabase/supabase-js": "github:supabase/supabase-js"
   },
   "type": "module"
 }

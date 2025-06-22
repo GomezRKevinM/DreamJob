@@ -1,13 +1,12 @@
 package com.talento_tech.BolsaEmpleo.Services;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.net.InetAddress;
-
+import org.springframework.stereotype.Service;
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.SystemInfo;
@@ -16,6 +15,7 @@ import com.talento_tech.BolsaEmpleo.Entities.tipoID;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+@Service
 public class ServiceUsuario {
     private static final Archivos gestor = new Archivos();
     private String ipAddress;
@@ -136,4 +136,38 @@ public class ServiceUsuario {
         }
     }
 
+    public Usuario validarCredenciales(String email, String rawPassword) {
+        String sql = """
+            SELECT * 
+            FROM usuarios 
+            WHERE email = ? 
+            AND password = crypt(?, password)
+        """;
+
+        try (Connection cn = DatabaseConexion.getConnection();
+            PreparedStatement ps = cn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ps.setString(2, rawPassword);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null; // credenciales inválidas
+                }
+
+                // mapear el usuario (idéntico a getAllUsers)
+                Usuario u = new Usuario();
+                u.setId(rs.getLong("user_id"));
+                u.setUsername(rs.getString("username"));
+                u.setEmail(rs.getString("email"));
+                u.setNombre(rs.getString("nombre"));
+                u.setApellido(rs.getString("apellido"));
+                // …añade lo que necesites
+                return u;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
