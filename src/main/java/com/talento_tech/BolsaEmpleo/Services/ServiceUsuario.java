@@ -1,18 +1,12 @@
 package com.talento_tech.BolsaEmpleo.Services;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import org.apache.catalina.connector.Response;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.net.InetAddress;
-
+import org.springframework.stereotype.Service;
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.SystemInfo;
@@ -21,10 +15,10 @@ import com.talento_tech.BolsaEmpleo.Entities.tipoID;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+@Service
 public class ServiceUsuario {
     private static final Archivos gestor = new Archivos();
     private String ipAddress;
-    private static Usuario user;
 
     public ArrayList<Usuario> getAllUsers( HttpServletRequest request){
         String ipAddress = request.getRemoteAddr();
@@ -142,60 +136,38 @@ public class ServiceUsuario {
         }
     }
 
-    public Usuario login(String username, String password) {
-        if(user != null) {
-            throw new IllegalStateException("El usuario ya ha iniciado sesión.");
-        }
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("El nombre de usuario y la contrasena deben ser proporcionados.");
-        }
+    public Usuario validarCredenciales(String email, String rawPassword) {
+        String sql = """
+            SELECT * 
+            FROM usuarios 
+            WHERE email = ? 
+            AND password = crypt(?, password)
+        """;
 
-        String sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
-        Usuario usuario = null;
+        try (Connection cn = DatabaseConexion.getConnection();
+            PreparedStatement ps = cn.prepareStatement(sql)) {
 
-        try (Connection connection = DatabaseConexion.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            ResultSet rs = pstmt.executeQuery();
+            ps.setString(1, email);
+            ps.setString(2, rawPassword);
 
-            if (rs.next()) {
-                usuario = new Usuario();
-                usuario.setId(rs.getLong("user_id"));
-                usuario.setUsername(rs.getString("username"));
-                usuario.setEmail(rs.getString("email"));
-                usuario.setNombre(rs.getString("nombre"));
-                usuario.setApellido(rs.getString("apellido"));
-                usuario.setTelefono(rs.getString("telefono"));
-                usuario.setDireccion(rs.getString("direccion"));
-                usuario.setIdentificacion(rs.getString("identificacion"));
-                usuario.setTipoID(com.talento_tech.BolsaEmpleo.Entities.tipoID.valueOf(rs.getString("tipoid")));
-                usuario.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-                usuario.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                usuario.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null; // credenciales inválidas
+                }
 
-                System.out.println("Usuario autenticado: " + username);
-            } else {
-                System.out.println("Credenciales inválidas para el usuario: " + username);
+                // mapear el usuario (idéntico a getAllUsers)
+                Usuario u = new Usuario();
+                u.setId(rs.getLong("user_id"));
+                u.setUsername(rs.getString("username"));
+                u.setEmail(rs.getString("email"));
+                u.setNombre(rs.getString("nombre"));
+                u.setApellido(rs.getString("apellido"));
+                // …añade lo que necesites
+                return u;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al autenticar el usuario: " + username, e);
+            e.printStackTrace();
+            return null;
         }
-        user = usuario;
-        return usuario;
-    }
-
-    public void logout() {
-        if (user != null) {
-            System.out.println("Usuario " + user.getUsername() + " ha cerrado sesión.");
-            user = null;
-        } else {
-            System.out.println("No hay usuario autenticado para cerrar sesión.");
-        }
-    }
-
-    public Usuario getUserSession(){
-        return user;
     }
 }

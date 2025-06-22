@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+.fake
+
+### Node ###
+*node_modules/*
