@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.net.InetAddress;
 import org.springframework.stereotype.Service;
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
@@ -19,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ServiceUsuario {
     private static final Archivos gestor = new Archivos();
     private String ipAddress;
+    private Usuario user;
 
     public ArrayList<Usuario> getAllUsers( HttpServletRequest request){
         String ipAddress = request.getRemoteAddr();
@@ -136,6 +136,63 @@ public class ServiceUsuario {
         }
     }
 
+    public Usuario login(String username, String password) {
+        if(user != null) {
+            throw new IllegalStateException("El usuario ya ha iniciado sesión.");
+        }
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("El nombre de usuario y la contrasena deben ser proporcionados.");
+        }
+
+        String sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
+        Usuario usuario = null;
+
+        try (Connection connection = DatabaseConexion.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setId(rs.getLong("user_id"));
+                usuario.setUsername(rs.getString("username"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setApellido(rs.getString("apellido"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setDireccion(rs.getString("direccion"));
+                usuario.setIdentificacion(rs.getString("identificacion"));
+                usuario.setTipoID(com.talento_tech.BolsaEmpleo.Entities.tipoID.valueOf(rs.getString("tipoid")));
+                usuario.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+                usuario.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                usuario.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
+                
+                this.user = usuario;
+                System.out.println("Usuario autenticado: " + username);
+            } else {
+                System.out.println("Credenciales inválidas para el usuario: " + username);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al autenticar el usuario: " + username, e);
+        }
+        return usuario;
+    }
+
+    public void logout() {
+        if (user != null) {
+            System.out.println("Usuario " + user.getUsername() + " ha cerrado sesión.");
+            user = null;
+        } else {
+            System.out.println("No hay usuario autenticado para cerrar sesión.");
+        }
+    }
+
+    public Usuario getUserSession(){
+        return user;
+    }
+
     public Usuario validarCredenciales(String email, String rawPassword) {
         String sql = """
             SELECT * 
@@ -170,4 +227,6 @@ public class ServiceUsuario {
             return null;
         }
     }
+
+
 }

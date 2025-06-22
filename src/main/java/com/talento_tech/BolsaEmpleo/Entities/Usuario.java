@@ -3,6 +3,7 @@ package com.talento_tech.BolsaEmpleo.Entities;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+
 public class Usuario {
 
     private Long id;
