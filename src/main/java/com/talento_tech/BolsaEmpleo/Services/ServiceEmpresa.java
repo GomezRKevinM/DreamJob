@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.catalina.connector.Response;
+
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.Empresa;
+import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
 public class ServiceEmpresa {
     Empresa empresa;
@@ -26,7 +29,8 @@ public class ServiceEmpresa {
         return serviceEmpleado;
     }
 
-    public Empresa getEmpresaById(Long id) {
+    public ResponseDto getEmpresaById(Long id) {
+        Empresa empresaEncontrda;
         String  sql = "SELECT * FROM empresas WHERE empresa_id = ?";
         try(Connection conn = DatabaseConexion.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -47,10 +51,13 @@ public class ServiceEmpresa {
             String identificacionRepresentante = rs.getString("representante_identificacion");
             String tipoIdentificacionRepresentante = rs.getString("representante_tipo_identificacion");
 
-            empresa = new Empresa(nombre,descripcion,logo,telefono,direccion,email,web,tipoEmpresa,nit,representante,identificacionRepresentante,tipoIdentificacionRepresentante);
-            empresa.setId(empresaId);
-            
-            return empresa;
+            empresaEncontrda = new Empresa(nombre,descripcion,logo,telefono,direccion,email,web,tipoEmpresa,nit,representante,identificacionRepresentante,tipoIdentificacionRepresentante);
+            empresaEncontrda.setId(empresaId);
+            ResponseDto response = new ResponseDto("Empresa encontrada", empresaEncontrda, 200);
+            return response;
+        }else{
+            ResponseDto response = new ResponseDto("Empresa no encontrada", null, 404);
+            return response;
         }
     
 
@@ -60,7 +67,7 @@ public class ServiceEmpresa {
         return null;
     }
 
-    public Empresa crearEmpresa(Empresa newEmpresa)throws SQLException {
+    public ResponseDto crearEmpresa(Empresa newEmpresa)throws SQLException {
         String sql = "INSERT INTO empresas (nombre,descripcion,logo,telefono,direccion,email,web,tipo_empresa,nit,representante,representante_identificacion,representante_tipo_identificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try(Connection conn = DatabaseConexion.getConnection();
@@ -79,13 +86,15 @@ public class ServiceEmpresa {
             pstmt.setString(12, newEmpresa.getTipoIdentificacionRepresentante());
             pstmt.executeUpdate();
             System.out.println("Empresa creada exitosamente");
-            return newEmpresa;
+            ResponseDto response = new ResponseDto("Empresa creada exitosamente", newEmpresa, 201);
+            return response;
         }catch(SQLException e) {
-            throw new SQLException("Error: " + e.getMessage());
+            ResponseDto response = new ResponseDto("Error al crear la empresa", e, 400);
+            return response;
         }
     }
 
-    public Empresa editarEmpresa(Empresa empresa) throws SQLException {
+    public ResponseDto editarEmpresa(Empresa empresa) throws SQLException {
         String sql = "UPDATE empresas SET nombre = ?, descripción = ?, logo = ?, telefono = ?, direccion = ?, email = ?, web = ?, tipo_empresa = ?, nit = ?, representante = ?, representante_identificacion = ?, representante_tipo_identificacion = ? WHERE empresa_id = ?";
 
         try(Connection conn = DatabaseConexion.getConnection();
@@ -105,14 +114,15 @@ public class ServiceEmpresa {
             pstmt.setLong(13, empresa.getId());
             pstmt.executeUpdate();
             System.out.println("Empresa editada exitosamente");
-            return empresa;
+            
+            return new ResponseDto("Empresa editada exitosamente", empresa, 201);
         }catch(SQLException e) {
-            throw new SQLException("Error: " + e.getMessage());
+            return new ResponseDto("Error al editar la empresa", e, 400);
         }
     }
 
-    public Empresa eliminarEmpresa(Long empresaId) throws SQLException {
-        Empresa empresa = getEmpresaById(empresaId);
+    public ResponseDto eliminarEmpresa(Long empresaId) throws SQLException {
+        Empresa empresa = Empresa.class.cast(getEmpresaById(empresaId).getData());
         String sql = "DELETE FROM empresas WHERE empresa_id = ?";    
 
         try(Connection conn = DatabaseConexion.getConnection();
@@ -120,13 +130,13 @@ public class ServiceEmpresa {
             pstmt.setLong(1, empresaId);
             pstmt.executeUpdate();
             System.out.println("Empresa eliminada exitosamente");
-            return empresa;
+            return new ResponseDto("Empresa eliminada exitosamente", empresa, 200);
         }catch(SQLException e) {
-            throw new SQLException("Error: " + e.getMessage());
+            return new ResponseDto("Error al eliminar la empresa", e, 400);
         }
     }
 
-    public ArrayList<Empresa> getEmpresas() {
+    public ResponseDto getEmpresas() {
         String sql = "SELECT * FROM empresas";
         ArrayList<Empresa> empresas = new ArrayList<>();
 
@@ -153,8 +163,8 @@ public class ServiceEmpresa {
                 empresas.add(empresa);
             }
         } catch (SQLException e) {
-            System.out.println("Error al obtener las empresas: " + e.getMessage());
+            return new ResponseDto("Error al obtener las empresas", e, 401);
         }
-        return empresas;
+        return new ResponseDto("Empresas obtenidas exitosamente", empresas, 200);
     }
 }
