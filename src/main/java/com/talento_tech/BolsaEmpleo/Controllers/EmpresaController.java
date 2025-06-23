@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.talento_tech.BolsaEmpleo.Entities.Empresa;
 import com.talento_tech.BolsaEmpleo.Services.ServiceEmpresa;
+import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -27,28 +29,28 @@ public class EmpresaController {
     }
 
     @GetMapping("/empresa/{id}")
-    public ResponseEntity<Empresa> getEmpresa(@PathVariable Long id) {
+    public ResponseEntity<ResponseDto> getEmpresa(@PathVariable Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("El ID de la empresa debe ser un número positivo.");
         }
-        return ResponseEntity.ok(serviceEmpresa.getEmpresaById(id));
+        ResponseDto respuesta = serviceEmpresa.getEmpresaById(id);
+        
+       return ResponseEntity.status(respuesta.getStatus()).body(respuesta);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> postMethodName(@RequestBody Empresa entity) {
+    public ResponseEntity<ResponseDto> agregar(@RequestBody Empresa entity) {
         Empresa saved;
         try {
-            saved = serviceEmpresa.crearEmpresa(entity);
+            saved = Empresa.class.cast(serviceEmpresa.crearEmpresa(entity).getData());
             if(saved != null) {
-                ResponseEntity<Object> response = ResponseEntity.ok().body(saved);
-                return response;
+                return ResponseEntity.status(201).body(new ResponseDto("Empresa creada exitosamente", saved, 201));
             } else {
-                return ResponseEntity.badRequest().body("Error al crear la empresa");
+                return ResponseEntity.status(500).body(new ResponseDto("Error al crear la empresa", null, 500));
             }
         } catch (SQLException e) {
-            System.out.println("Error al crear la empresa: " + e.getMessage());
+            return ResponseEntity.status(500).body(new ResponseDto("Error al crear la empresa", e, 500));
         }
-        return null;
     }
     
     
