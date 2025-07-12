@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.apache.catalina.connector.Response;
-
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.Empresa;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;

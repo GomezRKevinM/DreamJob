@@ -232,3 +232,9 @@
 2025-06-22 18:32:57.626 - DB: Se ha obtenido un usuario desde la base de datos: Admin
 2025-06-22 18:32:57.628 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
 2025-06-22 18:32:57.628 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+2025-06-24 13:08:47.771 - DB: Se ha obtenido un usuario desde la base de datos: Admin
+2025-06-24 13:08:47.776 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
+2025-06-24 13:08:47.778 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+2025-06-24 13:13:18.63 - DB: Se ha obtenido un usuario desde la base de datos: Admin
+2025-06-24 13:13:18.635 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
+2025-06-24 13:13:18.638 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp

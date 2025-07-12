@@ -11,6 +11,7 @@ import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.SystemInfo;
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Entities.tipoID;
+import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -20,8 +21,13 @@ public class ServiceUsuario {
     private String ipAddress;
     private Usuario user;
 
-    public ArrayList<Usuario> getAllUsers( HttpServletRequest request){
-        String ipAddress = request.getRemoteAddr();
+    public ResponseDto getAllUsers( HttpServletRequest request){
+        if(request == null){
+            System.out.println("Request is null");
+        }else{
+            String ipAddress = request.getRemoteAddr();
+        }
+
         SystemInfo infoGeneral = new SystemInfo("DB", "Se ha solicitado la lista de usuarios desde IP: " + ipAddress);
         gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/log.txt", infoGeneral.toString());
         String sql = "SELECT * FROM usuarios";
@@ -53,16 +59,16 @@ public class ServiceUsuario {
                 SystemInfo userInfo = new SystemInfo("DB", "Se ha obtenido un usuario desde la base de datos: " + user.getUsername());
                 gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/logDB.txt", userInfo.toString());
             }
-            return users;
+            return new ResponseDto("Lista de usuarios obtenida exitosamente", users, 200);
         } catch (SQLException e) {
             e.printStackTrace();
             SystemInfo infoError = new SystemInfo("DB", "Error al obtener la lista de usuarios desde el servicio de usuario: " + e.getMessage());
             gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/log.txt", infoError.toString());
-            return new ArrayList<Usuario>();
+            return new ResponseDto("Error al obtener la lista de usuarios", e, 500);
         }
     }
     
-    public void agregarUsuario(Usuario usuario) {
+    public ResponseDto agregarUsuario(Usuario usuario) {
         String sql = "INSERT INTO usuarios (username, password, email, nombre, apellido, telefono, direccion, identificacion, tipoid, fecha_nacimiento) VALUES (?, crypt(?, gen_salt('bf')), ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConexion.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -80,34 +86,35 @@ public class ServiceUsuario {
 
             int filasAfectadas = pstmt.executeUpdate();
             if(filasAfectadas > 0){
-                System.out.println("Usuario agregado con éxito: " + usuario.getUsername());
+                return new ResponseDto("Usuario agregado exitosamente", usuario, 201);
             } else {
-                System.out.println("Error al agregar el usuario: " + usuario.getUsername());
+                return new ResponseDto("Error al agregar el usuario", null, 400);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return new ResponseDto("Error al agregar el usuario", e, 500);
         }
     }
 
-    public void eliminarUsuario(Long id) {
+    public ResponseDto eliminarUsuario(Long id) {
         String sql = "DELETE FROM usuarios WHERE user_id = ?";
         
         try (Connection connection = DatabaseConexion.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
             
             pstmt.setLong(1, id);
+
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Usuario eliminado con éxito: " + id);
+                return new ResponseDto("Usuario eliminado exitosamente", rowsAffected, 200);
             } else {
-                System.out.println("No se encontró el usuario con ID: " + id);
+                return new ResponseDto("Error al eliminar el usuario", rowsAffected, 404);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return new ResponseDto("Error al eliminar el usuario", e, 500);
         }
     }
 
-    public void editarUsuario(Usuario usuario) {
+    public ResponseDto editarUsuario(Usuario usuario) {
         String sql = "UPDATE usuarios SET username = ?, password = crypt(?, gen_salt('bf')), email = ?, nombre = ?, apellido = ?, telefono = ?, direccion = ?, identificacion = ?, tipoid = ?, fecha_nacimiento = ? WHERE user_id = ?";
         
         try (Connection connection = DatabaseConexion.getConnection();
@@ -127,21 +134,21 @@ public class ServiceUsuario {
 
             int filasAfectadas = pstmt.executeUpdate();
             if(filasAfectadas > 0){
-                System.out.println("Usuario editado con éxito: " + usuario.getUsername());
+                return new ResponseDto("Usuario editado exitosamente", filasAfectadas, 201);
             } else {
-                System.out.println("Error al editar el usuario: " + usuario.getUsername());
+                return new ResponseDto("Error al editar el usuario",filasAfectadas, 400);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            return new ResponseDto("Error al editar el usuario", e, 500);
         }
     }
 
-    public Usuario login(String username, String password) {
+    public ResponseDto login(String username, String password) {
         if(user != null) {
-            throw new IllegalStateException("El usuario ya ha iniciado sesión.");
+            return new ResponseDto("El usuario ya ha iniciado sesion", null, 401);
         }
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("El nombre de usuario y la contrasena deben ser proporcionados.");
+            return new ResponseDto("Los campos username y password son obligatorios", null, 400);
         }
 
         String sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
@@ -170,22 +177,21 @@ public class ServiceUsuario {
                 usuario.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
                 
                 this.user = usuario;
-                System.out.println("Usuario autenticado: " + username);
+                return new ResponseDto("Usuario autenticado exitosamente", usuario, 200);
             } else {
-                System.out.println("Credenciales inválidas para el usuario: " + username);
+                return new ResponseDto("Credenciales inválidas", null, 401);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al autenticar el usuario: " + username, e);
+            return new ResponseDto("Error al autenticar el usuario", e, 500);
         }
-        return usuario;
     }
 
-    public void logout() {
+    public ResponseDto logout() {
         if (user != null) {
-            System.out.println("Usuario " + user.getUsername() + " ha cerrado sesión.");
             user = null;
+            return new ResponseDto("Sesion cerrada exitosamente", null, 200);
         } else {
-            System.out.println("No hay usuario autenticado para cerrar sesión.");
+            return new ResponseDto("El usuario no ha iniciado sesion", null, 401);
         }
     }
 
@@ -193,40 +199,21 @@ public class ServiceUsuario {
         return user;
     }
 
-    public Usuario validarCredenciales(String email, String rawPassword) {
-        String sql = """
-            SELECT * 
-            FROM usuarios 
-            WHERE email = ? 
-            AND password = crypt(?, password)
-        """;
 
-        try (Connection cn = DatabaseConexion.getConnection();
-            PreparedStatement ps = cn.prepareStatement(sql)) {
-
-            ps.setString(1, email);
-            ps.setString(2, rawPassword);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) {
-                    return null; // credenciales inválidas
-                }
-
-                // mapear el usuario (idéntico a getAllUsers)
-                Usuario u = new Usuario();
-                u.setId(rs.getLong("user_id"));
-                u.setUsername(rs.getString("username"));
-                u.setEmail(rs.getString("email"));
-                u.setNombre(rs.getString("nombre"));
-                u.setApellido(rs.getString("apellido"));
-                // …añade lo que necesites
-                return u;
+    public Integer contarUsuarios(HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
+        SystemInfo infoGeneral = new SystemInfo("DB", "Se ha solicitado el conteo de usuarios desde IP: " + ipAddress);
+        gestor.escribirArchivo("./src/main/java/com/talento_tech/BolsaEmpleo/logs/log.txt", infoGeneral.toString());
+        String sql = "SELECT COUNT(*) AS total FROM usuarios";
+        try (Connection connection = DatabaseConexion.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("total");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return 0;
     }
-
-
 }
