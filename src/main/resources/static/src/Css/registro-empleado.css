@@ -1,18 +1,18 @@
+/* Fuente de Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-/* --- Estilos Generales --- */
+/* --- Estilos Generales (pueden ser compartidos con otros archivos CSS si usas una base) --- */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    background-color: #f4f7f6; /* Un color de fondo ligeramente diferente para que el card se destaque */
+    box-sizing: border-box; 
+    background-color: #f8f8f8; 
     color: #333;
-    min-height: 100vh;
+    min-height: 100vh; 
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
 }
-
 a {
     text-decoration: none;
     color: inherit;
@@ -24,54 +24,70 @@ ul {
     margin: 0;
 }
 
-/* --- Header --- */
+/* Header (Copia de tu CSS original, ajustada si es necesario) */
 .navbar {
     display: flex;
-    background-color: #fff;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 5%;
-    position: sticky;
+    padding: 15px 5%; 
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+    position: sticky; 
     top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+    z-index: 1000; 
 }
 
 .logo {
     display: flex;
     align-items: center;
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.4em;
     color: #333;
 }
 
 .logo img {
-    height: 35px;
-    margin-right: 10px;
+    height: 30px;
+    margin-right: 8px;
 }
 
 .nav-links ul {
     display: flex;
-    gap: 30px;
+    gap: 24px;
 }
 
 .subsections {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
     color: #1f1f1f;
     transition: color 0.3s ease;
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
 }
 
 .subsections:hover {
-    text-decoration: underline;
-    border-bottom: lawngreen;
     color: lawngreen; 
+}
+
+.subsections:hover span:last-child {
+    text-decoration: none;
+}
+
+.subsections.current-page {
+    color: lawngreen;
+    font-weight: 600;
+}
+
+.subsections.current-page span:last-child { 
+    text-decoration: none; 
+    border-bottom: 2px solid lawngreen; 
+    padding-bottom: 2px;
 }
 
 .btn-cta {
     background-color: #80ff9c; 
     color: white; 
-    font-size: larger;
+    font-size: 18px;
     padding: 8px 15px;
     border-radius: 5px;
     transition: all 0.3s ease;
@@ -84,28 +100,29 @@ ul {
     color: whitesmoke;
     transform: translateY(-2px); 
 }
-/* Hamburger Menu */
+
+/* Hamburger Menu (Copia de tu CSS original) */
 .hamburger-menu {
-    display: none;
+    display: none; 
     flex-direction: column;
     justify-content: space-around;
-    width: 30px;
-    height: 25px;
+    width: 30px; 
+    height: 25px; 
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1001; 
 }
 
 .hamburger-menu .bar {
     width: 100%;
-    height: 3px;
-    background-color: #333;
+    height: 3px; 
+    background-color: #333; 
     border-radius: 5px;
     transition: all 0.3s ease;
 }
 
 
 .hamburger-menu.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(8px) rotate(45deg); 
 }
 
 .hamburger-menu.active .bar:nth-child(2) {
@@ -113,24 +130,22 @@ ul {
 }
 
 .hamburger-menu.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-8px) rotate(-45deg); 
 }
-
 /* --- Main Content & Form Specifics --- */
 
 main {
     display: flex;
     justify-content: center;
+    margin-top: 16px;
     padding: 20px; 
     align-items: stretch; 
-    flex: 1;
 }
 
 .flex-main {
     display: flex; 
     max-width: 1400px;
     width: 95%; 
-    margin-top: 16px;
     min-height: 75vh;
     box-shadow: 0 15px 40px rgba(0,0,0,0.10);
     border-radius: 12px; 
@@ -489,13 +504,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 footer {
-    background-color: #e4e4e4;
-    color: #2c2c2c;
+    background-color: #5c5c5c;
+    color: #fff;
     text-align: center;
-    padding: 20px 10px;
-    font-size: 0.9em;
-    margin-top: 40px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 50px; 
 }
 
 /* Animaciones */

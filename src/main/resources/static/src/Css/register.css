@@ -1,18 +1,18 @@
+/* Fuente de Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-/* --- Estilos Generales --- */
+/* --- Estilos Generales (pueden ser compartidos con otros archivos CSS si usas una base) --- */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box; 
-    background-color: #fff; 
+    background-color: #f8f8f8; 
     color: #333;
     min-height: 100vh; 
     display: flex;
     flex-direction: column; 
 }
-
 a {
     text-decoration: none;
     color: inherit;
@@ -24,53 +24,70 @@ ul {
     margin: 0;
 }
 
-/* --- Header --- */
+/* Header (Copia de tu CSS original, ajustada si es necesario) */
 .navbar {
     display: flex;
-    background-color: #fff;
     justify-content: space-between;
     align-items: center;
     padding: 15px 5%; 
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
     position: sticky; 
     top: 0;
-    z-index: 1000;
+    z-index: 1000; 
 }
 
 .logo {
     display: flex;
     align-items: center;
     font-weight: 700;
-    font-size: 1.5em; 
+    font-size: 1.4em;
     color: #333;
 }
 
 .logo img {
-    height: 35px; 
-    margin-right: 10px;
+    height: 30px;
+    margin-right: 8px;
 }
 
 .nav-links ul {
     display: flex;
-    gap: 30px; 
+    gap: 24px;
 }
 
 .subsections {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
     color: #1f1f1f;
     transition: color 0.3s ease;
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
 }
 
 .subsections:hover {
-    text-decoration: underline;
-    border-bottom: lawngreen;
     color: lawngreen; 
+}
+
+.subsections:hover span:last-child {
+    text-decoration: none; 
+}
+
+.subsections.current-page {
+    color: lawngreen;
+    font-weight: 600;
+}
+
+.subsections.current-page span:last-child { 
+    text-decoration: none; 
+    border-bottom: 2px solid lawngreen; 
+    padding-bottom: 2px;
 }
 
 .btn-cta {
     background-color: #80ff9c; 
     color: white; 
-    font-size: larger;
+    font-size: 18px;
     padding: 8px 15px;
     border-radius: 5px;
     transition: all 0.3s ease;
@@ -84,7 +101,7 @@ ul {
     transform: translateY(-2px); 
 }
 
-/* Hamburger Menu */
+/* Hamburger Menu (Copia de tu CSS original) */
 .hamburger-menu {
     display: none; 
     flex-direction: column;
@@ -105,7 +122,7 @@ ul {
 
 
 .hamburger-menu.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(8px) rotate(45deg); 
 }
 
 .hamburger-menu.active .bar:nth-child(2) {
@@ -115,6 +132,7 @@ ul {
 .hamburger-menu.active .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg); 
 }
+
 /* main content */
 
 main {
@@ -131,7 +149,7 @@ main {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
     overflow: hidden;
-    max-width: 960px; 
+    max-width: 875px; 
     width: 100%; 
 }
 
@@ -321,11 +339,12 @@ main {
 }
 
 footer {
-    background-color: #e4e4e4;
-    color: #2c2c2c;
-    text-align: center;
-    padding: 20px;
-    margin-top: 50px; 
+  background-color: #5c5c5c;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: 1em;
+  margin-top: 50px;
 }
 
 @media (max-width: 768px) {
@@ -405,10 +424,6 @@ footer {
 
     .register-info-panel { 
         display: none;
-    }
-
-    footer {
-        margin-top: 100px;
     }
 
 }

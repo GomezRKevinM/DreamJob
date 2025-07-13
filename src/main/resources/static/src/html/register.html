@@ -6,6 +6,7 @@
     <title>Registro - DreamJob</title>
     <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../Css/register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
     <header class="navbar">
@@ -22,9 +23,27 @@
         </div>
         <nav class="nav-links">
             <ul>
-                <li><a href="#" class="subsections">Empleos</a></li>
-                <li><a href="#" class="subsections">Compañías</a></li>
-                <li><a href="#" class="subsections">Soporte</a></li>
+                <li>
+                    <a href="./empleos.html" class="subsections">
+                        <span class="material-symbols-outlined">work</span>
+                        <span>Empleos</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="./companias.html" class="subsections">
+                        <span class="material-symbols-outlined">add_business</span>
+                        <span>Compañías</span> </a>
+                </li>
+                <li>
+                    <a href="./planes.html" class="subsections">
+                        <span class="material-symbols-outlined">card_membership</span>
+                        <span>Planes</span> </a>
+                </li>
+                <li>
+                    <a href="./register.html" class="subsections current-page">
+                        <span class="material-symbols-outlined">person</span>
+                        <span>Registrarse</span> </a>
+                </li>
                 <li><a href="./login.html" class="btn-cta">Iniciar Sesión</a></li>
             </ul>
         </nav>
@@ -37,7 +56,8 @@
                 </div>
             </div>
             <div class="formulario-container">
-                <form id="registrationForm" action="/src/html/registro-empleado.html" method="POST"> <h2>Regístrate</h2>
+                <form id="registrationForm" action="./selecionRegistro.html" method="GET"> 
+                    <h2>Regístrate</h2>
                     <label for="username">Nombre de usuario:</label>
                     <input type="text" id="username" name="username" maxlength="12" required>
 

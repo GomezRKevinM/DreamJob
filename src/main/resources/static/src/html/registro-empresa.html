@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro Empresa</title>
+    <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../Css/registro-empresa.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+  <header class="navbar">
+  <div class="logo">
+    <a class="logo" href="../../index.html">
+      <img src="../../assets/logo.png" alt="Logo">
+      <span>DreamJob</span>
+    </a>
+  </div>
+    <div class="hamburger-menu">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="./empleos.html" class="subsections">
+          <span class="material-symbols-outlined">
+            work
+          </span>Empleos
+        </a>
+      </li>
+      <li>
+        <a href="./companias.html" class="subsections current-page">
+          <span class="material-symbols-outlined">
+            add_business
+          </span>
+          Compañías
+          </a>
+        </li>
+        <li>
+          <a href="./planes.html" class="subsections">
+            <span class="material-symbols-outlined">
+              card_membership
+            </span>
+            Planes
+          </a>
+        </li>
+        <li>
+          <a href="./register.html" class="subsections">
+            <span class="material-symbols-outlined">
+              person
+            </span>
+            Registrarse
+          </a>
+        </li>
+        <li><a href="./login.html" class="btn-cta">Iniciar Sessión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="company-creation-container">
+      <div class="company-preview-panel">
+        <h3>Vista Previa de la Empresa</h3>
+        <div class="img-user">
+          <label for="fileInput">
+            <img id="profilePic" src="../../assets/logo.png" alt="Foto de Perfil" />
+            <span class="material-symbols-outlined upload-icon">add_photo_alternate</span>
+          </label>
+          <p>Haz clic para cambiar la imagen!</p>
+          <input type="file" id="fileInput" accept="image/*" />
+        </div>
+        <div class="preview-details">
+          <p><strong>Nombre:</strong> <span id="preview-nombre">Nombre de la Empresa</span></p>
+          <p><strong>Tipo:</strong> <span id="preview-tipo_empresa">Tipo de Empresa</span></p>
+          <p><strong>Email:</strong> <span id="preview-email">email@ejemplo.com</span></p>
+          <p><strong>Web:</strong> <span id="preview-web">www.ejemplo.com</span></p>
+          <p><strong>NIT:</strong> <span id="preview-nit">000000000-0</span></p>
+        </div>
+      </div>
+
+      <div class="company-form-wrapper">
+        <h2>Crear Nueva Empresa</h2>
+        <form id="companyForm" action="/api/create-company" method="POST" enctype="multipart/form-data">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nombre">Nombre de la Empresa*</label>
+              <input type="text" id="nombre" name="nombre" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono*</label>
+              <input type="tel" id="telefono" name="telefono" required />
+            </div>
+            <div class="form-group">
+              <label for="direccion">Dirección</label>
+              <input type="text" id="direccion" name="direccion" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email*</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="web">Sitio Web</label>
+              <input type="url" id="web" name="web" />
+            </div>
+            <div class="form-group">
+              <label for="tipo_empresa">Tipo de Empresa*</label>
+              <input type="text" id="tipo_empresa" name="tipo_empresa" required />
+            </div>
+            <div class="form-group">
+              <label for="nit">NIT*</label>
+              <input type="text" id="nit" name="nit" required />
+            </div>
+            <div class="form-group">
+              <label for="representante1">Representante 1</label>
+              <input type="text" id="representante1" name="representante1" />
+            </div>
+            <div class="form-group">
+              <label for="representante2">Representante 2</label>
+              <input type="text" id="representante2" name="representante2" />
+            </div>
+            <div class="form-group">
+              <label for="representante3">Representante 3</label>
+              <input type="text" id="representante3" name="representante3" />
+            </div>
+            <div class="form-group form-full">
+              <label for="descripcion">Descripción</label>
+              <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+            </div>
+            <div class="form-group form-full">
+              <button type="submit">Crear Empresa</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 DreamJob. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="../Javascript/menuHamburguesa.js"></script>
+</body>
+
+</html>
