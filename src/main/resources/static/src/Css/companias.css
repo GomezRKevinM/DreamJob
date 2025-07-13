@@ -1,0 +1,397 @@
+/* Fuente de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* --- Estilos Generales (pueden ser compartidos con otros archivos CSS si usas una base) --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    background-color: #f8f8f8; 
+    color: #333;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column; 
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Header (Copia de tu CSS original, ajustada si es necesario) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%; 
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+    position: sticky; 
+    top: 0;
+    z-index: 1000; 
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.4em;
+    color: #333;
+}
+
+.logo img {
+    height: 30px;
+    margin-right: 8px;
+}
+
+.nav-links ul {
+    display: flex;
+    gap: 24px;
+}
+
+
+.subsections {
+    font-size: 17px;
+    font-weight: 500;
+    color: #1f1f1f;
+    transition: color 0.3s ease;
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+}
+
+.subsections:hover {
+    color: lawngreen; 
+}
+
+.subsections:hover span:last-child {
+    text-decoration: none; 
+}
+
+.subsections.current-page {
+    color: lawngreen;
+    font-weight: 600;
+}
+
+.subsections.current-page span:last-child { 
+    text-decoration: none; 
+    border-bottom: 2px solid lawngreen; 
+    padding-bottom: 2px;
+}
+
+.btn-cta {
+    background-color: #80ff9c; 
+    color: white; 
+    font-size: 18px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    white-space: nowrap; 
+}
+
+
+.btn-cta:hover {
+    background-color: #96ffad;
+    color: whitesmoke;
+    transform: translateY(-2px); 
+}
+
+/* Hamburger Menu (Copia de tu CSS original) */
+.hamburger-menu {
+    display: none; 
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px; 
+    height: 25px; 
+    cursor: pointer;
+    z-index: 1001; 
+}
+
+.hamburger-menu .bar {
+    width: 100%;
+    height: 3px; 
+    background-color: #333; 
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+
+.hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg); 
+}
+
+.hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg); 
+}
+
+/* --- Estilos Específicos de la Página de Compañías --- */
+
+.companias-main {
+    flex-grow: 1; /* Esto asegura que el main ocupe el espacio disponible y el footer quede abajo */
+    padding: 20px 5%; /* Padding general para el contenido principal */
+    max-width: 1200px; /* Ancho máximo para centrar el contenido */
+    margin: 0 auto; /* Centrar el contenido */
+}
+
+.hero-companias {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #e6ffe6; /* Un verde claro para el fondo */
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.hero-companias h1 {
+    font-size: 3em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.hero-companias p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.search-bar-companias {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-bar-companias input[type="text"] {
+    flex-grow: 1;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar-companias input[type="text"]:focus {
+    border-color: lawngreen;
+}
+
+.search-bar-companias button {
+    background-color: #80ff9c;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-bar-companias button:hover {
+    background-color: #6ed682;
+    transform: translateY(-2px);
+}
+
+/* Company Listings Section */
+.company-listings h2 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 30px;
+    justify-content: center; /* Centrar las tarjetas si no llenan la fila */
+}
+
+.company-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.company-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.company-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Hacer el logo circular */
+    object-fit: cover; /* Asegura que la imagen se ajuste bien */
+    margin-bottom: 15px;
+    border: 3px solid lawngreen; /* Borde verde alrededor del logo */
+}
+
+.company-name {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.company-name:hover {
+    color: lawngreen;
+}
+
+.company-industry,
+.company-location {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.company-description {
+    font-size: 0.95em;
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Permite que la descripción empuje el botón hacia abajo */
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-view-jobs {
+    background-color: #4CAF50; /* Un verde un poco más oscuro que el CTA principal */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-view-jobs:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 10px;
+}
+
+.pagination a {
+    color: #333;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a.active,
+.pagination a:hover:not(.active) {
+    background-color: lawngreen;
+    color: white;
+    border-color: lawngreen;
+}
+
+/* Footer (Copia de tu CSS original) */
+footer {
+    background-color: #5c5c5c;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 1em;
+    margin-top: 50px; 
+}
+
+
+/* --- Responsive Design (Ajustes para pantallas más pequeñas) --- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Ocultar enlaces de navegación por defecto */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* Ajusta según la altura de tu navbar */
+        left: 0;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .nav-links.active {
+        display: flex; /* Mostrar cuando el menú hamburguesa está activo */
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hamburger-menu {
+        display: flex; /* Mostrar el menú hamburguesa */
+    }
+
+    .subsections, .btn-cta {
+        padding: 10px 0;
+        width: 100%;
+        display: block;
+    }
+
+    .btn-cta {
+        margin-top: 10px;
+    }
+
+    .navbar {
+        padding: 10px 5%;
+    }
+
+    .hero-companias h1 {
+        font-size: 2.2em;
+    }
+
+    .hero-companias p {
+        font-size: 1em;
+    }
+
+    .search-bar-companias {
+        flex-direction: column; /* Apilar búsqueda y botón en móviles */
+        gap: 10px;
+    }
+
+    .search-bar-companias input,
+    .search-bar-companias button {
+        width: 100%; /* Ocupar todo el ancho */
+    }
+
+    .companies-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+}

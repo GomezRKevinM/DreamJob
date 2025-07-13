@@ -106,9 +106,19 @@
 2025-06-22 18:32:54.552 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-22 18:32:54.552 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-22 18:32:56.99 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
+<<<<<<< HEAD
 2025-06-23 13:26:46.686 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-23 13:26:46.686 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-23 13:26:50.636 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-27 18:28:09.062 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-27 18:28:09.062 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
 2025-06-27 18:28:10.614 - DB: Se ha solicitado la lista de usuarios desde IP: 0:0:0:0:0:0:0:1
+=======
+2025-06-24 13:08:44.622 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-06-24 13:13:08.446 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-06-24 13:13:15.924 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-06-24 13:15:05.126 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-06-24 13:15:05.17 - DB: Error al obtener la lista de usuarios desde el servicio de usuario: No suitable driver found for jdbc:postgresql://aws-0-us-east-2.pooler.supabase.com:6543/postgres
+2025-06-24 13:16:35.236 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-06-24 13:16:35.282 - DB: Error al obtener la lista de usuarios desde el servicio de usuario: No suitable driver found for jdbc:postgresql://aws-0-us-east-2.pooler.supabase.com:6543/postgres
+>>>>>>> b0130cd36f9d3542dedd88a998ef7c8cb4f11287

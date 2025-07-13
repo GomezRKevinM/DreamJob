@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleos oferta</title>
+    <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../Css/empleos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a class="logo" href="../../index.html">
+                <img src="../../assets/logo.png" alt="Logo">
+                <span>DreamJob</span>
+            </a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li>
+                    <a href="./empleos.html" class="subsections current-page">
+                        <span class="material-symbols-outlined">work</span>
+                        <span>Empleos</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="./companias.html" class="subsections">
+                        <span class="material-symbols-outlined">add_business</span>
+                        <span>Compañías</span> </a>
+                </li>
+                <li>
+                    <a href="./planes.html" class="subsections">
+                        <span class="material-symbols-outlined">card_membership</span>
+                        <span>Planes</span> </a>
+                </li>
+                <li>
+                    <a href="./register.html" class="subsections">
+                        <span class="material-symbols-outlined">person</span>
+                        <span>Registrarse</span> </a>
+                </li>
+                <li><a href="./login.html" class="btn-cta">Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="empleos-page-container">
+            <div class="search-and-top-filters">
+                <div class="search-bar-top modern-search">
+                    <input type="text" id="busqueda" placeholder="Buscar ofertas...">
+                    <button class="boton-busqueda">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                </div>
+
+                <div class="top-filters">
+                    <div class="filtro-group-inline">
+                        <select id="modalidad">
+                            <option value="">Modalidad</option>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Remoto">Remoto</option>
+                            <option value="Híbrido">Híbrido</option>
+                        </select>
+                    </div>
+
+                    <div class="filtro-group-inline">
+                        <select id="tipoContrato">
+                            <option value="">Contrato</option>
+                            <option value="Tiempo completo">Tiempo completo</option>
+                            <option value="Medio tiempo">Medio tiempo</option>
+                            <option value="Prácticas">Prácticas</option>
+                        </select>
+                    </div>
+
+                    <div class="filtro-group-inline">
+                        <select id="nivel">
+                            <option value="">Experiencia</option>
+                            <option value="Sin Experiencia">Sin Experiencia</option>
+                            <option value="1-2 años">1-2 años</option>
+                            <option value="3-5 años">3-5 años</option>
+                            <option value="+5 años">+5 años</option>
+                        </select>
+                    </div>
+                    <div class="filtro-group-inline">
+                        <select id="fechaPublicacion">
+                            <option value="">Fecha Publicación</option>
+                            <option value="">Cualquier momento</option>
+                            <option value="24h">Últimas 24 horas</option>
+                            <option value="7d">Últimos 7 días</option>
+                            <option value="30d">Últimos 30 días</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content-area">
+                <div class="job-listing-container">
+                    <div class="job-card" data-job-id="1">
+                        <div class="job-header">
+                            <h3 class="job-title">Desarrollador Frontend</h3>
+                            <span class="job-salary">$3.000.000</span>
+                        </div>
+                        <div class="job-info">
+                            <p><strong>Modalidad:</strong> Remoto</p>
+                            <p><strong>Contrato:</strong> Tiempo completo</p>
+                            <p><strong>Ubicación:</strong> Medellín, Colombia</p>
+                            <p><strong>Experiencia:</strong> 2 años</p>
+                        </div>
+                        <div class="job-footer">
+                            <small class="posted-date">Publicado: 03/07/2025</small>
+                        </div>
+                    </div>
+
+                    <div class="job-card" data-job-id="2">
+                        <div class="job-header">
+                            <h3 class="job-title">Diseñador UI/UX</h3>
+                            <span class="job-salary">$2.800.000</span>
+                        </div>
+                        <div class="job-info">
+                            <p><strong>Modalidad:</strong> Híbrido</p>
+                            <p><strong>Contrato:</strong> Tiempo completo</p>
+                            <p><strong>Ubicación:</strong> Bogotá, Colombia</p>
+                            <p><strong>Experiencia:</strong> 1 año</p>
+                        </div>
+                        <div class="job-footer">
+                            <small class="posted-date">Publicado: 01/07/2025</small>
+                        </div>
+                    </div>
+
+                    <div class="job-card" data-job-id="3">
+                        <div class="job-header">
+                            <h3 class="job-title">Soporte Técnico</h3>
+                            <span class="job-salary">$2.200.000</span>
+                        </div>
+                        <div class="job-info">
+                            <p><strong>Modalidad:</strong> Presencial</p>
+                            <p><strong>Contrato:</strong> Prácticas</p>
+                            <p><strong>Ubicación:</strong> Cali, Colombia</p>
+                            <p><strong>Experiencia:</strong> 0 años</p>
+                        </div>
+                        <div class="job-footer">
+                            <small class="posted-date">Publicado: 30/06/2025</small>
+                        </div>
+                    </div>
+
+                    <div class="job-card" data-job-id="4">
+                        <div class="job-header">
+                            <h3 class="job-title">Analista de Datos</h3>
+                            <span class="job-salary">$4.000.000</span>
+                        </div>
+                        <div class="job-info">
+                            <p><strong>Modalidad:</strong> Remoto</p>
+                            <p><strong>Contrato:</strong> Medio tiempo</p>
+                            <p><strong>Ubicación:</strong> Barranquilla, Colombia</p>
+                            <p><strong>Experiencia:</strong> 3 años</p>
+                        </div>
+                        <div class="job-footer">
+                            <small class="posted-date">Publicado: 28/06/2025</small>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <button class="btn-pagination" id="prevPage">Anterior</button>
+                        <button class="btn-pagination" id="nextPage">Siguiente</button>
+                    </div>
+                    <footer>
+                        <p>&copy; 2025 DreamJob. Todos los derechos reservados.</p>
+                    </footer>
+                </div>
+
+                <div class="job-details-mobile" id="jobDetailsMobile"></div>
+
+                <div class="job-details-panel">
+                    <div class="job-details-placeholder">
+                        Selecciona una oferta para ver los detalles
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../Javascript/menuHamburguesa.js"></script>
+    <script src="../Javascript/empleo.js"></script>
+</body>
+</html>

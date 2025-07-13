@@ -3,6 +3,9 @@ package com.talento_tech.BolsaEmpleo.Entities;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class Empleado {
     private long empleado_id;
     private long usuario_id;
@@ -22,7 +25,6 @@ public class Empleado {
         ofertasAplicadas = new ArrayList<>();
         ofertasFavoritas = new ArrayList<>();
         habilidades = new ArrayList<>();
-        idiomas = new ArrayList<>();
         experienciaLaboral = new ArrayList<>();
         educacion = new ArrayList<>();
         referenciasPersonales = new ArrayList<>();
@@ -53,6 +55,16 @@ public class Empleado {
 
     public ArrayList<String> getHabilidades() {
         return habilidades;
+    }
+
+    public String getHabilidadesString(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(habilidades);
+    }
+
+    public void setHabilidadesJson(String json) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        this.habilidades = gson.fromJson(json, habilidades.getClass());
     }
 
     public void setHabilidades(ArrayList<String> habilidades) {
@@ -108,6 +120,17 @@ public class Empleado {
         return idiomas;
     }
 
+    public String getIdiomasString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(idiomas);
+        return json;
+    }
+
+    public void setIdiomasJson(String json) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        this.idiomas = gson.fromJson(json, idiomas.getClass());
+    }
+
     public void setIdiomas(ArrayList<String> idiomas) {
         this.idiomas = idiomas;
     }
@@ -135,4 +158,14 @@ public class Empleado {
     public void setReferenciasPersonales(ArrayList<ReferenciaPersonal> referenciasPersonales) {
         this.referenciasPersonales = referenciasPersonales;
     }
+
+    public long getUsuario_id() {
+        return usuario_id;
+    }
+
+    public void setUsuario_id(long usuario_id) {
+        this.usuario_id = usuario_id;
+    }
+
+    
 }

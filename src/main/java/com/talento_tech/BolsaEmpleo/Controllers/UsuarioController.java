@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Services.ServiceUsuario;
+import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -76,27 +77,25 @@ public class UsuarioController {
     @ResponseBody
     @Operation(summary = "Listar todos los usuarios")
     @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
-    public ArrayList<Usuario> listar(HttpServletRequest request){
-        return serviceUsuario.getAllUsers(request);
+    public ResponseEntity<ResponseDto> listar(HttpServletRequest request){
+        ResponseDto response = serviceUsuario.getAllUsers(request);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/count")
     @ResponseBody
     @Operation(summary = "Contar el número de usuarios")
     public Integer contar(HttpServletRequest request){
-        if(listar(request) == null) {
-            return 0; // Si la lista es nula, retornar 0
-        }else{
-            return listar(request).size();
-        }// Retornar 0 por ahora como un valor ficticio
+        return serviceUsuario.contarUsuarios(request);
     }
 
     @GetMapping("/login")
     @ResponseBody
     @Operation(summary = "Iniciar sesión de usuario", description = "Permite a un usuario iniciar sesión proporcionando su nombre de usuario y contraseña.")
     @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
-    public Usuario login(@RequestBody Usuario user) {
-        return serviceUsuario.login(user.getUsername(), user.getPassword());
+    public ResponseEntity<ResponseDto> login(@RequestBody Usuario user) {
+        ResponseDto response = serviceUsuario.login(user.getUsername(), user.getPassword());
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/logout")

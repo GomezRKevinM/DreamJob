@@ -232,6 +232,7 @@
 2025-06-22 18:32:57.626 - DB: Se ha obtenido un usuario desde la base de datos: Admin
 2025-06-22 18:32:57.628 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
 2025-06-22 18:32:57.628 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+<<<<<<< HEAD
 2025-06-23 13:26:50.51 - DB: Se ha obtenido un usuario desde la base de datos: Admin
 2025-06-23 13:26:50.307 - DB: Se ha obtenido un usuario desde la base de datos: Admin
 2025-06-23 13:26:50.529 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
@@ -250,3 +251,11 @@
 2025-06-27 18:28:11.435 - DB: Se ha obtenido un usuario desde la base de datos: Admin
 2025-06-27 18:28:11.436 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
 2025-06-27 18:28:11.436 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+=======
+2025-06-24 13:08:47.771 - DB: Se ha obtenido un usuario desde la base de datos: Admin
+2025-06-24 13:08:47.776 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
+2025-06-24 13:08:47.778 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+2025-06-24 13:13:18.63 - DB: Se ha obtenido un usuario desde la base de datos: Admin
+2025-06-24 13:13:18.635 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
+2025-06-24 13:13:18.638 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+>>>>>>> b0130cd36f9d3542dedd88a998ef7c8cb4f11287

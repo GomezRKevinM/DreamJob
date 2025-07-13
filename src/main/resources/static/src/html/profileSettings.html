@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información personal</title>
+    <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../Css/profile-settings.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a class="logo" href="../../index.html">
+                <img src="../../assets/logo.png" alt="Logo">
+                <span>DreamJob</span>
+            </a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="./empleos.html" class="subsections">
+                        <span class="material-symbols-outlined">
+                            work
+                        </span>Empleos
+                    </a>
+                </li>
+                <li>
+                    <a href="./companias.html" class="subsections current-page">
+                        <span class="material-symbols-outlined">
+                            add_business
+                        </span>
+                        Compañías
+                    </a>
+                </li>
+                <li>
+                    <a href="./planes.html" class="subsections">
+                        <span class="material-symbols-outlined">
+                            card_membership
+                        </span>
+                        Planes
+                    </a>
+                </li>
+                <li>
+                    <a href="./register.html" class="subsections">
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
+                        Registrarse
+                    </a>
+                </li>
+                <li><a href="./login.html" class="btn-cta">Iniciar Sessión</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main-content">
+        <div class="sidebar">
+            <h2>Información Personal</h2>
+            <ul>
+                <li><a href="#" id="boton1">USUARIOS</a></li>
+                <li><a href="#" id="boton2">INFORMACIÓN PERSONAL</a></li>
+                <li><a href="#" id="boton3">INICIO DE SESIÓN </a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <section class="form-section" id="section1">
+                <div class="info-text">
+                    <h3>Usuario</h3>
+                    <p>Los usuarios usan un ID para encontrarse </p>
+                </div>
+                <div class="info-fields usuario">
+                    <div class="usuario-field">
+                        <div class="img-user">
+                            <label class="t-profile">Foto De Perfil</label>
+                            <label for="fileInput">
+                                <img id="profilePic" src="../../assets/Yo.jpeg" alt="Foto de Perfil">
+                                <span class="material-icons camera-icon">photo_camera</span>
+                            </label>
+                            <input type="file" id="fileInput" accept="image/*">
+                        </div>
+                        <div class="username-wrapper">
+                            <label>Nombre de Usuario</label>
+                            <div class="editable-field">
+                                <input type="text" id="nombreUsuario" placeholder="PatoVampiro" required readonly>
+                                <button id="editarNombre" title="editarNombre">
+                                    <span class="material-symbols-outlined">
+                                    edit
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="guardarNombre" disabled>GUARDAR</button>
+                </div>
+            </section>
+
+            <section class="form-section" id="section2">
+                <div class="info-text">
+                    <h3>Información Personal</h3>
+                    <p>Esta información es privada y no se compartirá con otros jugadores. Lee Aviso de privacidad de Riot en cualquier momento.</p>
+                </div>
+                <div class="info-fields">
+                    <label>Nombre</label>
+                    <input type="text" placeholder="Nombre">
+                    <label>Apellido</label>
+                    <input type="text" placeholder="Apellido">
+                    <label>Correo electrónico</label>
+                    <input type="email" placeholder="dreamjob@example.com" required>
+                    <label>País/Región</label>
+                    <select disabled>
+                        <option selected>COL</option>
+                    </select>
+                    <label>Fecha de nacimiento</label>
+                    <input type="date" required>
+                    <button disabled>Guardar y verificar</button>
+                </div>
+            </section>
+
+            <section class="form-section" id="section3">
+                <div class="info-text">
+                    <h3>Inicio de sesión</h3>
+                    <p>Cambio de contraseñas</p>
+                </div>
+                <div class="info-fields">
+                    <label>Contraseña Actual</label>
+                    <input type="password" placeholder="Contraseña">
+                    <div class="bottom-line"></div>
+                    <label>Nueva Contraseña</label>
+                    <input type="password" placeholder="Contraseña">
+                    <label>Confirmar contraseña</label>
+                    <input type="password" placeholder="Confirmar Contraseña">
+                    <button>GUARDAR CAMBIOS</button>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 DreamJob. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../Javascript/profileLugarLink.js" ></script>
+    <script src="../Javascript/menuHamburguesa.js"></script>
+</body>
+</html>
+
