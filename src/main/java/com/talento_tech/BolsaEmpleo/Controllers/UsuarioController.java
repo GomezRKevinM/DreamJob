@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -107,15 +106,17 @@ public class UsuarioController {
     @ResponseBody
     @Operation(summary = "Cerrar sesión de usuario", description = "Permite a un usuario cerrar sesión.")
     @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
-    public void logout() {
-        serviceUsuario.logout();
+    public ResponseEntity<ResponseDto> logout() {
+        ResponseDto response = serviceUsuario.logout();
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/user-session")
     @ResponseBody
     @Operation(summary = "Obtener información de la sesión de usuario")
-    public Usuario getUserSessionInfo() {
-        return serviceUsuario.getUserSession();
+    public ResponseEntity<ResponseDto> getUserSessionInfo() {
+        ResponseDto response = serviceUsuario.getUserSession();
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
     
 }

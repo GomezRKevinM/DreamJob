@@ -15,6 +15,7 @@ import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Entities.tipoID;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
+import io.micrometer.core.ipc.http.HttpSender.Response;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
@@ -202,8 +203,12 @@ public class ServiceUsuario {
         }
     }
 
-    public Usuario getUserSession(){
-        return user;
+    public ResponseDto getUserSession(){
+        if(user != null) {
+            return new ResponseDto("Usuario en sessión", user, 200);
+        } else {
+            return new ResponseDto("No hay usuario en sessión", null, 404);
+        }
     }
 
 
