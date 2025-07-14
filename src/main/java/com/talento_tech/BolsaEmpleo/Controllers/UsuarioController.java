@@ -89,12 +89,17 @@ public class UsuarioController {
         return serviceUsuario.contarUsuarios(request);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ResponseBody
     @Operation(summary = "Iniciar sesión de usuario", description = "Permite a un usuario iniciar sesión proporcionando su nombre de usuario y contraseña.")
     @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
     public ResponseEntity<ResponseDto> login(@RequestBody Usuario user) {
-        ResponseDto response = serviceUsuario.login(user.getUsername(), user.getPassword());
+        ResponseDto response = null;
+        if(user.getEmail() != null && user.getPassword() != null){
+            response = serviceUsuario.login(user.getEmail(), user.getPassword());
+        }else{
+            response = serviceUsuario.login(user.getUsername(), user.getPassword());
+        }
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

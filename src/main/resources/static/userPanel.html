@@ -63,6 +63,11 @@
     fetch(`${urlBase}users/list`)
       .then(res => res.json())
       .then(data => {
+<<<<<<< HEAD
+=======
+         console.log(data.data);
+
+>>>>>>> 6ecabba2f731c2caeca70bcdf96e0a314d830393
         data.data.forEach((user, index) => {
           const registro = new Date(user.fechaRegistro);
           const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Service;
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
@@ -150,8 +152,13 @@ public class ServiceUsuario {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return new ResponseDto("Los campos username y password son obligatorios", null, 400);
         }
-
-        String sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
+        boolean isEmail = Pattern.matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", username);
+        String sql;
+        if(isEmail){
+            sql = "SELECT * FROM usuarios WHERE email = ? AND password = crypt(?, password)";
+        }else{
+            sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
+        }
         Usuario usuario = null;
 
         try (Connection connection = DatabaseConexion.getConnection();
