@@ -16,10 +16,6 @@ public class ServiceEmpleado {
         empleado = new Empleado(1, "cv.pdf");
     }
 
-    public Empleado getEmpleado() {
-        return empleado;
-    }
-
     public ResponseDto getEmpleadosByEmpresaId(long empresaId) {
        String sql = "SELECT * FROM empleados WHERE empresa_id = ?";
         
