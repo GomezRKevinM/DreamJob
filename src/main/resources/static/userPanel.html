@@ -37,7 +37,6 @@
           </tr>
         </thead>
         <tbody id="tbody" class="text-sm divide-y divide-gray-200">
-          <!-- Usuarios se insertan aquí -->
         </tbody>
       </table>
     </div>
@@ -64,7 +63,7 @@
     fetch(`${urlBase}users/list`)
       .then(res => res.json())
       .then(data => {
-        data.forEach((user, index) => {
+        data.data.forEach((user, index) => {
           const registro = new Date(user.fechaRegistro);
           const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
           const tr = document.createElement("tr");
@@ -93,7 +92,6 @@
       });
 
     function eliminarUsuario(id) {
-      // Aquí podrías hacer una confirmación y luego:
       fetch(`${urlBase}users/del/${id}`, { method: 'DELETE' })
         .then(() => location.reload());
     }

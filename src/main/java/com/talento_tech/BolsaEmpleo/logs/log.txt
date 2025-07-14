@@ -122,3 +122,7 @@
 2025-06-24 13:16:35.236 - DB: Se ha solicitado la lista de usuarios desde IP: null
 2025-06-24 13:16:35.282 - DB: Error al obtener la lista de usuarios desde el servicio de usuario: No suitable driver found for jdbc:postgresql://aws-0-us-east-2.pooler.supabase.com:6543/postgres
 >>>>>>> b0130cd36f9d3542dedd88a998ef7c8cb4f11287
+2025-07-13 18:52:21.67 - DB: Se ha solicitado el conteo de usuarios desde IP: 0:0:0:0:0:0:0:1
+2025-07-13 18:52:21.67 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-07-13 18:59:14.159 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-07-13 18:59:14.159 - DB: Se ha solicitado el conteo de usuarios desde IP: 0:0:0:0:0:0:0:1
