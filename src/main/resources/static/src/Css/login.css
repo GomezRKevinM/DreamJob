@@ -186,7 +186,7 @@ main {
     margin-bottom: 5px; 
 }
 
-.formulario-container input[type="email"],
+.formulario-container input[type="text"],
 .formulario-container input[type="password"] {
     width: 100%;
     padding: 12px 15px;
@@ -197,7 +197,7 @@ main {
     box-sizing: border-box; 
 }
 
-.formulario-container input[type="email"]:focus,
+.formulario-container input[type="text"]:focus,
 .formulario-container input[type="password"]:focus {
     border-color: #a3a3a3;
     outline: none; 
