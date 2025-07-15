@@ -27,6 +27,10 @@ public class OfertaEmpleo {
 
     private ArrayList<Empleado> postulados;
 
+    public OfertaEmpleo() {
+
+    }
+
     public OfertaEmpleo(long id, long empleado_id, long empresa_id, String cargo, String ubicacion, String descripcion, String nombreEmpresa, String requisitos, Double salario, Timestamp fechaPublicacion, Date fechaExpiracion, String tipoContrato, String modalidad, String pais, String ciudad, String departamento, String nivelEstudios, String experienciaLaboral) {
         this.id = id;
         this.empleador_id = empleado_id;

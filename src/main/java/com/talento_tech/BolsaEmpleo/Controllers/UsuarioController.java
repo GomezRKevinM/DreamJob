@@ -59,8 +59,9 @@ public class UsuarioController {
 
     @PutMapping("/edit")
     @Operation(summary = "Editar un usuario existente")
-    public void editar(@RequestBody Usuario usuario) {
-        serviceUsuario.editarUsuario(usuario);
+    public ResponseEntity<ResponseDto> editar(@RequestBody Usuario usuario) {
+        ResponseDto response = serviceUsuario.editarUsuario(usuario);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @DeleteMapping("/del/{id}")

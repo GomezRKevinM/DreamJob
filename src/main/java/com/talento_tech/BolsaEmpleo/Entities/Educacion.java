@@ -76,7 +76,7 @@ public class Educacion {
         this.fecha_fin = fecha_fin;
     }
 
-    public boolean isCursando_actualmente() {
+    public boolean getCursando_actualmente() {
         return cursando_actualmente;
     }
 
@@ -115,4 +115,6 @@ public class Educacion {
     public void setEmpleado_id(long empleado_id) {
         this.empleado_id = empleado_id;
     }
+
+
 }

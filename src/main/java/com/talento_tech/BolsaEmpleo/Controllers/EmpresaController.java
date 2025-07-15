@@ -92,5 +92,9 @@ public class EmpresaController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
     
-
+    @GetMapping("/count")
+    public ResponseEntity<ResponseDto> getCount() {
+        ResponseDto response = serviceEmpresa.contar();
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

@@ -165,4 +165,21 @@ public class ServiceEmpresa {
         }
         return new ResponseDto("Empresas obtenidas exitosamente", empresas, 200);
     }
+
+    public ResponseDto contar(){
+        String sql = "SELECT COUNT(*) FROM empresas";
+
+        try(Connection conn = DatabaseConexion.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                int count = rs.getInt(1);
+                return new ResponseDto("Total de empresas encontradas",count,200);
+            }else {
+                return new ResponseDto("No se pudo obtener el conteo", null, 500);
+            }
+        }catch (SQLException e) {
+            return new ResponseDto("Error al obtener las empresas", e.getMessage(), 400);
+        }
+    }
 }
