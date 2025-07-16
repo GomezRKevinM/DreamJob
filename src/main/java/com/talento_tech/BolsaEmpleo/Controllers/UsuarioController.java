@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 
 import com.talento_tech.BolsaEmpleo.Entities.user_rol;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +20,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 
-@RestController
-    @RequestMapping("/users")
 @Tag(name = "Usuario Controller", description = "Controlador para manejar las operaciones de usuario")
+@RestController
+@RequestMapping("/users")
 public class UsuarioController {
     ServiceUsuario serviceUsuario;
 
@@ -31,10 +30,9 @@ public class UsuarioController {
         serviceUsuario = new ServiceUsuario();
     }
 
-    @PostMapping("/add")
-    @Operation(summary = "Agregar un nuevo usuario")    
-    public ResponseEntity<ResponseDto> agregar(@RequestBody Usuario usuario) {
-        ResponseDto response = serviceUsuario.agregarUsuario(usuario);
+    @PostMapping("/agregar")
+    public ResponseEntity<ResponseDto> agregar(@RequestBody Usuario user){
+        ResponseDto response = serviceUsuario.agregarUsuario(user);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
@@ -66,11 +64,9 @@ public class UsuarioController {
 
     @DeleteMapping("/del/{id}")
     @Operation(summary = "Eliminar un usuario por ID")  
-    public void eliminar(@PathVariable Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("El ID del usuario debe ser un número positivo.");
-        }
-        serviceUsuario.eliminarUsuario(id);
+    public ResponseEntity<ResponseDto> eliminar(@PathVariable Long id) {
+        ResponseDto response = serviceUsuario.eliminarUsuario(id);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/list")

@@ -111,20 +111,20 @@ public class ServiceUsuario {
     }
     
     public ResponseDto agregarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (username, password, email, nombre, apellido, telefono, direccion, identificacion, tipoid, fecha_nacimiento) VALUES (?, crypt(?, gen_salt('bf')), ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (username, password, email, nombre, apellido, telefono, direccion, identificacion, tipoid, fecha_nacimiento) VALUES (?, crypt(?, gen_salt('md5')), ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConexion.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            
-            pstmt.setString(1, usuario.getUsername());
-            pstmt.setString(2, usuario.getPassword());
-            pstmt.setString(3, usuario.getEmail());
-            pstmt.setString(4, usuario.getNombre());
-            pstmt.setString(5, usuario.getApellido());
-            pstmt.setString(6, usuario.getTelefono());
-            pstmt.setString(7, usuario.getDireccion());
-            pstmt.setString(8, usuario.getIdentificacion());
-            pstmt.setString(9, usuario.getTipoID().name());
-            pstmt.setDate(10, usuario.getFechaNacimiento());
+    
+                 pstmt.setString(1, usuario.getUsername());
+                pstmt.setString(2, usuario.getPassword());
+                pstmt.setString(3, usuario.getEmail());
+                pstmt.setString(4, usuario.getNombre());
+                pstmt.setString(5, usuario.getApellido());
+                pstmt.setString(6, usuario.getTelefono());
+                pstmt.setString(7, usuario.getDireccion());
+                pstmt.setString(8, usuario.getIdentificacion());
+                pstmt.setString(9, usuario.getTipoID().name());
+                pstmt.setDate(10, usuario.getFechaNacimiento());
 
             int filasAfectadas = pstmt.executeUpdate();
             if(filasAfectadas > 0){
@@ -133,7 +133,7 @@ public class ServiceUsuario {
                 return new ResponseDto("Error al agregar el usuario", null, 400);
             }
         } catch (SQLException e) {
-            return new ResponseDto("Error al agregar el usuario", e, 500);
+            return new ResponseDto("Error al agregar el usuario", e.getMessage(), 500);
         }
     }
 
