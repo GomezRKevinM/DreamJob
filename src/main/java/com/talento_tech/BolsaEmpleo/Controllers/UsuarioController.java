@@ -5,6 +5,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 
+import com.talento_tech.BolsaEmpleo.Entities.user_rol;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,20 +33,18 @@ public class UsuarioController {
 
     @PostMapping("/add")
     @Operation(summary = "Agregar un nuevo usuario")    
-    public void agregar(@RequestBody Usuario usuario) {
-        serviceUsuario.agregarUsuario(usuario);
+    public ResponseEntity<ResponseDto> agregar(@RequestBody Usuario usuario) {
+        ResponseDto response = serviceUsuario.agregarUsuario(usuario);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/user/{id}")
     @ResponseBody
     @Operation(summary = "Obtener un usuario por ID")
     @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("El ID del usuario debe ser un número positivo.");
-        }
-        // Aquí debería ir la lógica para obtener el usuario de la base de datos
-        return new Usuario(); // Retornar un usuario ficticio por ahora
+    public ResponseEntity<ResponseDto> getUsuarioById(@PathVariable Long id) {
+        ResponseDto response = serviceUsuario.getUserByID(id);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/profile/{id}")
@@ -118,6 +118,38 @@ public class UsuarioController {
     public ResponseEntity<ResponseDto> getUserSessionInfo() {
         ResponseDto response = serviceUsuario.getUserSession();
         return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @GetMapping("/roles")
+    public ResponseDto getRoles(){
+        ArrayList<user_rol> roles = new ArrayList<>();
+
+        for(user_rol rol: user_rol.values()){
+            roles.add(rol);
+        }
+        return new ResponseDto("Roles disponibles",roles,200);
+    }
+
+    @PatchMapping("/user-rol/")
+    public ResponseDto updateRol(@RequestBody Usuario usuario) {
+        String sql = "UPDATE usuarios SET rol = ?::user_role WHERE user_id = ?";
+
+        try(Connection conn = DatabaseConexion.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, usuario.getRol());
+            ps.setLong(2, usuario.getId());
+
+            int filas = ps.executeUpdate();
+
+            if(filas > 0){
+                ResponseDto usuarioCambiado = serviceUsuario.getUserByID(usuario.getId());
+                return new ResponseDto("Rol actualizado exitosamente",usuarioCambiado.getData(),200);
+            }else{
+                return new ResponseDto("Rol no actualizado, no se encontro el usuario",null,404);
+            }
+        }catch (SQLException e){
+            return new ResponseDto("Error al actualizar rol del usuario",e.getMessage(),500);
+        }
     }
     
 }

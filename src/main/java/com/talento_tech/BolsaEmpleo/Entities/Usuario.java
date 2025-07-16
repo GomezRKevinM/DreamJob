@@ -19,6 +19,7 @@ public class Usuario {
     private String identificacion;
     private tipoID tipoID;
     private Date fechaNacimiento;
+    private String rol;
 
     public Usuario() {
 
@@ -120,6 +121,17 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public void setRol(String rol){
+        if(rol != this.rol ){
+            this.rol = rol;
+        }else{
+            throw new IllegalArgumentException("el rol no puede ser igual al actual");
+        }
+    }
+
+    public String getRol(){
+        return rol;
+    }
 
     public String nacimiento(){
         String nacimiento = fechaNacimiento.getMonth() + "/" + fechaNacimiento.getDate() + "/" + fechaNacimiento.getYear();

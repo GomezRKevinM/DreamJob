@@ -70,6 +70,45 @@ public class ServiceUsuario {
             return new ResponseDto("Error al obtener la lista de usuarios", e, 500);
         }
     }
+
+    public ResponseDto getUserByID(Long id){
+        String sql = "SELECT * FROM usuarios WHERE user_id = ?";
+
+        try(Connection conn = DatabaseConexion.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);){
+            ps.setLong(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                Usuario user = new Usuario();
+                tipoID tipoID = com.talento_tech.BolsaEmpleo.Entities.tipoID.valueOf(rs.getString("tipoid"));
+
+                user.setId(id);
+                user.setUsername(rs.getString("username"));
+                user.setPassword(null);
+                user.setIdentificacion(rs.getString("identificacion"));
+                user.setEmail(rs.getString("email"));
+                user.setNombre(rs.getString("nombre"));
+                user.setApellido(rs.getString("apellido"));
+                user.setTelefono(rs.getString("telefono"));
+                user.setDireccion(rs.getString("direccion"));
+                user.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                user.setIdentificacion(rs.getString("identificacion"));
+                user.setTipoID(tipoID);
+                user.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+                user.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
+                user.setRol(rs.getString("rol"));
+
+                return new ResponseDto("Usuario encontrado",user,200);
+            }else{
+                return new ResponseDto("No se ha encontrado el usuario",null,404);
+            }
+
+        }catch (SQLException e){
+            return new ResponseDto("Error al obtener usuario",e.getMessage(),500);
+        }
+    }
     
     public ResponseDto agregarUsuario(Usuario usuario) {
         String sql = "INSERT INTO usuarios (username, password, email, nombre, apellido, telefono, direccion, identificacion, tipoid, fecha_nacimiento) VALUES (?, crypt(?, gen_salt('bf')), ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -118,7 +157,7 @@ public class ServiceUsuario {
     }
 
     public ResponseDto editarUsuario(Usuario usuario) {
-        String sql = "UPDATE usuarios SET username = ?, password = crypt(?, gen_salt('bf')), email = ?, nombre = ?, apellido = ?, telefono = ?, direccion = ?, identificacion = ?, tipoid = ?, fecha_nacimiento = ? WHERE user_id = ?";
+        String sql = "UPDATE usuarios SET username = ?, password = crypt(?, gen_salt('bf')), email = ?, nombre = ?, apellido = ?, telefono = ?, direccion = ?, identificacion = ?, tipoid = ?, fecha_nacimiento = ? rol = ? WHERE user_id = ?";
         
         try (Connection connection = DatabaseConexion.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -133,7 +172,8 @@ public class ServiceUsuario {
             pstmt.setString(8, usuario.getIdentificacion());
             pstmt.setString(9, usuario.getTipoID().name());
             pstmt.setDate(10, usuario.getFechaNacimiento());
-            pstmt.setLong(11, usuario.getId());
+            pstmt.setString(11,usuario.getRol());
+            pstmt.setLong(12, usuario.getId());
 
             int filasAfectadas = pstmt.executeUpdate();
             if(filasAfectadas > 0){
@@ -210,6 +250,7 @@ public class ServiceUsuario {
             return new ResponseDto("No hay usuario en sessión", null, 404);
         }
     }
+
 
 
     public Integer contarUsuarios(HttpServletRequest request) {
