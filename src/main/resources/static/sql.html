@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL execute🧩🔐</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        input,div{
+            width: 100%;
+        }
+        #tableContainer{
+            overflow:auto;
+        }
+        #tableContainer::-webkit-scrollbar{
+            width: 7px;
+            background-color: #F5F5F5;
+        }
+        #tableContainer::-webkit-scrollbar-thumb{
+            background-color: #555;
+        }
+        #tableContainer::-webkit-scrollbar-thumb:hover{
+            background-color: #555;
+        }
+        #tableContainer::-webkit-scrollbar-track{
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="bg-cyan-50 w-full border-box">
+    <main>
+        <input id="input" placeholder="Ingresa tu consulta sql" class="container w-screen mx-auto rounded-lg bg-white shadow-lg p-10  outline-transparent"/>
+        <div id="tableContainer">
+
+        </div>
+    </main>
+    <script>
+        const contenedor = document.getElementById('tableContainer');
+        const input = document.querySelector('#input');
+        input.addEventListener('keydown', (e) => {
+            if(e.key === "Enter"){
+                consultar();
+            }
+        })
+
+        function consultar(){
+            fetch('http://localhost:8080/sql/consultar', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({sentencia: input.value})
+            }).then(data => data.json())
+                .then(response => {
+                    console.log(response);
+                    const data = Array.isArray(response.data) ? response.data : [response.data];
+
+                    if (!data || data.length === 0) {
+                        contenedor.innerHTML = '<div class="text-gray-500">No hay resultados para mostrar</div>';
+                        return;
+                    }
+
+                    let table = '<table class="w-full text-left border-collapse">';
+                    table += '<thead><tr>';
+
+                    // Headers
+                    Object.keys(data[0] || {}).forEach(key => {
+                        table += `<th class="py-2 px-4 bg-cyan-100 border border-cyan-300">${key}</th>`;
+                    });
+                    table += '</tr></thead><tbody>';
+
+                    // Data rows
+                    data.forEach(row => {
+                        table += '<tr>';
+                        Object.values(row).forEach(value => {
+                            table += `<td class="py-2 px-4 border border-cyan-200">${value}</td>`;
+                        });
+                        table += '</tr>';
+                    });
+
+                    table += '</tbody></table>';
+                    contenedor.innerHTML = table;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    contenedor.innerHTML = `<div class="text-red-500">Error: ${error.message}</div>`;
+                });
+        }
+    </script>
+</body>
+</html>
