@@ -42,6 +42,20 @@ public class ServiceEmpleado {
         }
      }
 
+         public ResponseDto getEmpleadoByUser(long id) {
+        String sql = "SELECT * FROM empleados WHERE user_id = ?";
+         
+        try(Connection conn = DatabaseConexion.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setLong(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            return new ResponseDto("Empleado obtenido exitosamente", rs, 200);
+        }catch(SQLException e) {
+            return new ResponseDto("Error al obtener el empleado", e, 500);
+        }
+     }
+
+
      public ResponseDto agregar(Empleado empleado) {
         String sql = "INSERT INTO empleados (user_id,cv, habilidades,idiomas) VALUES (?, ?, ?, ?)";
          

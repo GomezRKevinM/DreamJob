@@ -65,6 +65,44 @@ public class ServiceEmpresa {
         return null;
     }
 
+        public ResponseDto getEmpresaByUser(Long id) {
+        Empresa empresaEncontrda;
+        String  sql = "SELECT * FROM empresas WHERE usuario_id = ?";
+        try(Connection conn = DatabaseConexion.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setLong(1, id);
+                ResultSet rs = pstmt.executeQuery();
+        if(rs.next()) {
+            long empresaId = rs.getLong("empresa_id");
+            String nombre = rs.getString("nombre");
+            String telefono = rs.getString("telefono");
+            String email = rs.getString("email");
+            String direccion = rs.getString("direccion");
+            String descripcion = rs.getString("descripcion");
+            String logo = rs.getString("logo");
+            String web = rs.getString("web");
+            String tipoEmpresa = rs.getString("tipo_empresa");
+            String nit = rs.getString("nit");
+            String representante = rs.getString("representante");
+            String identificacionRepresentante = rs.getString("representante_identificacion");
+            String tipoIdentificacionRepresentante = rs.getString("representante_tipo_identificacion");
+
+            empresaEncontrda = new Empresa(nombre,descripcion,logo,telefono,direccion,email,web,tipoEmpresa,nit,representante,identificacionRepresentante,tipoIdentificacionRepresentante);
+            empresaEncontrda.setId(empresaId);
+            ResponseDto response = new ResponseDto("Empresa encontrada", empresaEncontrda, 200);
+            return response;
+        }else{
+            ResponseDto response = new ResponseDto("Empresa no encontrada", null, 404);
+            return response;
+        }
+    
+
+        }catch (SQLException e) {
+           System.out.println("Error al obtener la empresa: " + e.getMessage());
+        }
+        return null;
+    }
+
     public ResponseDto crearEmpresa(Empresa newEmpresa)throws SQLException {
         String sql = "INSERT INTO empresas (nombre,descripcion,logo,telefono,direccion,email,web,tipo_empresa,nit,representante,representante_identificacion,representante_tipo_identificacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 

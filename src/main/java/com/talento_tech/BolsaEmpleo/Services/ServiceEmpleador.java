@@ -23,6 +23,19 @@ public class ServiceEmpleador {
         }
     }
 
+        public ResponseDto getEmpleadorByUser(Long id){
+        String sql = "SELECT * FROM empleadores WHERE usuario_id = ?";
+
+        try(Connection conn = DatabaseConexion.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setLong(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            return new ResponseDto("Empleador encontrado", rs, 200);
+        }catch (SQLException err){
+            return new ResponseDto("Error al obtener el empleador", err.getMessage(), 500);
+        }
+    }
+
     public ResponseDto getEmpleadores(){
         String sql = "SELECT * FROM empleadores";
         try(Connection conn = DatabaseConexion.getConnection();
