@@ -110,6 +110,7 @@ public class UsuarioController {
 
     @GetMapping("/user-session")
     @ResponseBody
+    @CrossOrigin(origins = "*") //Siempres olvidas esto.
     @Operation(summary = "Obtener información de la sesión de usuario")
     public ResponseEntity<ResponseDto> getUserSessionInfo() {
         ResponseDto response = serviceUsuario.getUserSession();
