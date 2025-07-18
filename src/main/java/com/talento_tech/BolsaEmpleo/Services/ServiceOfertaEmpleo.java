@@ -26,13 +26,14 @@ public class ServiceOfertaEmpleo {
 
         try(Connection conn = DatabaseConexion.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setLong(1,ofertaEmpleo.getEmpleado_id());
+            pstmt.setLong(1,ofertaEmpleo.getEmpleador_id());
             pstmt.setLong(2,ofertaEmpleo.getEmpresa_id());
             pstmt.setString(3,ofertaEmpleo.getCargo());
             pstmt.setString(4,ofertaEmpleo.getUbicacion());
             pstmt.setString(5,ofertaEmpleo.getDescripcion());
             pstmt.setString(6,ofertaEmpleo.getRequisitos());
             pstmt.setDouble(7,ofertaEmpleo.getSalario());
+            if(ofertaEmpleo.getFechaExpiracion() == null){pstmt.setDate(8,java.sql.Date.valueOf("2026-01-12"));}
             pstmt.setDate(8,ofertaEmpleo.getFechaExpiracion());
             pstmt.setString(9,ofertaEmpleo.getTipoContrato());
             pstmt.setString(10,ofertaEmpleo.getModalidad());
@@ -108,17 +109,19 @@ public class ServiceOfertaEmpleo {
     }
 
     public ResponseDto lista(){
-        String sql = "SELECT * FROM ofertatrabajo";
+        String sql = "SELECT * FROM ofertatrabajo INNER join empresas ON id_empresa = empresa_id";
 
         try(Connection conn = DatabaseConexion.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)){
-            ResultSet rs = pstmt.executeQuery();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();){
+            
             ArrayList<OfertaEmpleo> lista = new ArrayList<OfertaEmpleo>();
+
             while(rs.next()){
                 OfertaEmpleo recibida = new OfertaEmpleo();
                 recibida.setId(rs.getLong("id"));
                 recibida.setEmpresa_id(rs.getLong("id_empresa"));
-                recibida.setEmpleado_id(rs.getLong("id_empleador"));
+                recibida.setEmpleador_id(rs.getLong("id_empleador"));
                 recibida.setCargo(rs.getString("cargo"));
                 recibida.setDescripcion(rs.getString("descripcion"));
                 recibida.setRequisitos(rs.getString("requisitos"));
@@ -133,6 +136,9 @@ public class ServiceOfertaEmpleo {
                 recibida.setExperienciaLaboral(rs.getString("experiencia_laboral"));
                 recibida.setIdiomas(rs.getString("idiomas"));
                 recibida.setFechaPublicacion(rs.getTimestamp("fecha_publicacion"));
+                recibida.setUbicacion(rs.getString("ubicacion"));
+                recibida.setNombreEmpresa(rs.getString("nombre"));
+
 
                 lista.add(recibida);
             }
@@ -170,7 +176,7 @@ public class ServiceOfertaEmpleo {
                 OfertaEmpleo recibida = new OfertaEmpleo();
                 recibida.setId(id);
                 recibida.setEmpresa_id(rs.getLong("id_empresa"));
-                recibida.setEmpleado_id(rs.getLong("id_empleador"));
+                recibida.setEmpleador_id(rs.getLong("id_empleador"));
                 recibida.setCargo(rs.getString("cargo"));
                 recibida.setDescripcion(rs.getString("descripcion"));
                 recibida.setRequisitos(rs.getString("requisitos"));
@@ -185,6 +191,7 @@ public class ServiceOfertaEmpleo {
                 recibida.setExperienciaLaboral(rs.getString("experiencia_laboral"));
                 recibida.setIdiomas(rs.getString("idiomas"));
                 recibida.setFechaPublicacion(rs.getTimestamp("fecha_publicacion"));
+                recibida.setUbicacion(rs.getString("ubicacion"));
 
                 return new ResponseDto("Oferta encontrada con el id "+id,recibida,200);
             }else {
