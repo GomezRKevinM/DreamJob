@@ -15,8 +15,14 @@ public class EmpleadorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> getEmpleadorById(Long id) {
+    public ResponseEntity<ResponseDto> getEmpleadorById(@PathVariable Long id) {
         ResponseDto response = serviceEmpleador.getEmpleador(id);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+    
+    @GetMapping("user/{id}")
+    public ResponseEntity<ResponseDto> getEmpleadorByUser(@PathVariable Long id) {
+        ResponseDto response = serviceEmpleador.getEmpleadorByUser(id);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

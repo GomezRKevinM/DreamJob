@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.Empleado;
@@ -23,7 +24,15 @@ public class ServiceEmpleado {
            PreparedStatement pstmt = conn.prepareStatement(sql)){
            pstmt.setLong(1, empresaId);
            ResultSet rs = pstmt.executeQuery();
-           return new ResponseDto("Empleados obtenidos exitosamente", rs, 200);
+           ArrayList<Empleado> empleados = new ArrayList<>();
+           while (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setEmpleado_id(rs.getLong("empleado_id"));
+                empleado.setCv(rs.getString("cv"));
+                empleado.setUsuario_id(rs.getLong("user_id"));
+                empleados.add(empleado);
+           }
+           return new ResponseDto("Empleados obtenidos exitosamente", empleados, 200);
        }catch(SQLException e) {
            return new ResponseDto("Error al obtener los empleados", e, 500);
        }
@@ -36,24 +45,41 @@ public class ServiceEmpleado {
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setLong(1, empleadoId);
             ResultSet rs = pstmt.executeQuery();
-            return new ResponseDto("Empleado obtenido exitosamente", rs, 200);
+            if(rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setEmpleado_id(empleadoId);
+                empleado.setCv(rs.getString("cv"));
+                empleado.setUsuario_id(rs.getLong("user_id"));
+                return new ResponseDto("Empleado obtenido exitosamente", empleado, 200);
+            }else{
+                return new ResponseDto("Empleado no encontrado", null, 404);
+            }
         }catch(SQLException e) {
             return new ResponseDto("Error al obtener el empleado", e, 500);
         }
      }
 
-         public ResponseDto getEmpleadoByUser(long id) {
-        String sql = "SELECT * FROM empleados WHERE user_id = ?";
+    public ResponseDto getEmpleadoByUser(long id) {
+        String sql = "SELECT * FROM empleados WHERE user_id = ? ";
          
         try(Connection conn = DatabaseConexion.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setLong(1, id);
+
             ResultSet rs = pstmt.executeQuery();
-            return new ResponseDto("Empleado obtenido exitosamente", rs, 200);
+            if(rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setEmpleado_id(rs.getLong("empleado_id"));
+                empleado.setCv(rs.getString("cv"));
+                empleado.setUsuario_id(id);
+                return new ResponseDto("Empleado obtenido exitosamente", empleado, 200);
+            }else{
+                return new ResponseDto("Empleado no encontrado", null, 404);
+            }
         }catch(SQLException e) {
             return new ResponseDto("Error al obtener el empleado", e, 500);
         }
-     }
+    }
 
 
      public ResponseDto agregar(Empleado empleado) {

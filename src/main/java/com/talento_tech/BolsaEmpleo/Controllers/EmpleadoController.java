@@ -21,6 +21,12 @@ public class EmpleadoController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @GetMapping("user/{id}")
+    public ResponseEntity<ResponseDto> getEmpleadoByUser(@PathVariable Long id) {
+        ResponseDto response = serviceEmpleado.getEmpleadoByUser(id);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
     @GetMapping("/empresa/{empresaId}")
     public ResponseEntity<ResponseDto> getEmpleadosByEmpresaId(@PathVariable Long empresaId) {
         ResponseDto response = serviceEmpleado.getEmpleadosByEmpresaId(empresaId);

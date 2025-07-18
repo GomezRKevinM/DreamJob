@@ -14,6 +14,8 @@ public class Empleador {
         this.usuario_id = usuario_id;
     }
 
+    public Empleador() {}
+
     public long getId() {
         return id;
     }

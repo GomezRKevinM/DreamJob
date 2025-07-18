@@ -35,6 +35,9 @@ public class Empresa {
         this.tipoIdentificacionRepresentante = tipoIdentificacionRepresentante;
     }
 
+    public Empresa() {}
+
+
     public long getId() {
         return id;
     }

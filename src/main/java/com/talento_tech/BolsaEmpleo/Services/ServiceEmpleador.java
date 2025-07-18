@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ServiceEmpleador {
     public ResponseDto getEmpleador(Long id){
@@ -17,7 +18,15 @@ public class ServiceEmpleador {
         PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
-            return new ResponseDto("Empleador encontrado", rs, 200);
+            if(rs.next()) {
+                Empleador empleador = new Empleador();
+                empleador.setId(rs.getLong("empleador_id"));
+                empleador.setEmpresa_id(rs.getLong("empresa_id"));
+                empleador.setUsuario_id(rs.getLong("usuario_id"));
+                return new ResponseDto("Empleador encontrado", empleador, 200);
+            }else{
+                return new ResponseDto("Empleador no encontrado", null, 404);
+            }
         }catch (SQLException err){
             return new ResponseDto("Error al obtener el empleador", err.getMessage(), 500);
         }
@@ -30,7 +39,15 @@ public class ServiceEmpleador {
         PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
-            return new ResponseDto("Empleador encontrado", rs, 200);
+            if(rs.next()) {
+                Empleador empleador = new Empleador();
+                empleador.setId(rs.getLong("empleador_id"));
+                empleador.setEmpresa_id(rs.getLong("empresa_id"));
+                empleador.setUsuario_id(rs.getLong("usuario_id"));
+                return new ResponseDto("Empleador encontrado", empleador, 200);
+            }else{
+                return new ResponseDto("Empleador no encontrado", null, 404);
+            }
         }catch (SQLException err){
             return new ResponseDto("Error al obtener el empleador", err.getMessage(), 500);
         }
@@ -41,7 +58,15 @@ public class ServiceEmpleador {
         try(Connection conn = DatabaseConexion.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
             ResultSet rs = pstmt.executeQuery();
-            return new ResponseDto("Empleadores encontrados", rs, 200);
+            ArrayList<Empleador> empleadores = new ArrayList<>();
+            while (rs.next()) {
+                Empleador empleador = new Empleador();
+                empleador.setId(rs.getLong("empleador_id"));
+                empleador.setEmpresa_id(rs.getLong("empresa_id"));
+                empleador.setUsuario_id(rs.getLong("usuario_id"));
+                empleadores.add(empleador);
+            }
+            return new ResponseDto("Empleadores encontrados", empleadores, 200);
         }catch (SQLException err){
             return new ResponseDto("Error al obtener los empleadores", err.getMessage(), 500);
         }
@@ -71,8 +96,12 @@ public class ServiceEmpleador {
         try(Connection conn = DatabaseConexion.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(sql);){
             pstmt.setLong(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            return new ResponseDto("Empleador eliminado exitosamente", rs, 200);
+            int filas = pstmt.executeUpdate();
+            if(filas == 0){
+                return new ResponseDto("Empleador no encontrado", null, 404);
+            }else{
+                return new ResponseDto("Empleador eliminado exitosamente", filas, 200);
+            }
         }catch (SQLException err){
             return new ResponseDto("Error al eliminar el empleador", err.getMessage(), 500);
         }

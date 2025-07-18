@@ -85,7 +85,7 @@ public class UsuarioController {
         return serviceUsuario.contarUsuarios(request);
     }
 
-    @PostMapping("/login")
+    @PatchMapping("/login")
     @ResponseBody
     @Operation(summary = "Iniciar sesión de usuario", description = "Permite a un usuario iniciar sesión proporcionando su nombre de usuario y contraseña.")
     @CrossOrigin(origins = "*") // Permitir solicitudes desde cualquier origen

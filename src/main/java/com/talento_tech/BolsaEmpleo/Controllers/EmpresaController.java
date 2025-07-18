@@ -16,7 +16,7 @@ import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -37,6 +37,16 @@ public class EmpresaController {
             throw new IllegalArgumentException("El ID de la empresa debe ser un número positivo.");
         }
         ResponseDto respuesta = serviceEmpresa.getEmpresaById(id);
+        
+       return ResponseEntity.status(respuesta.getStatus()).body(respuesta);
+    }
+
+        @GetMapping("/user/{id}")
+    public ResponseEntity<ResponseDto> getEmpresaByUser(@PathVariable Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El ID de la empresa debe ser un número positivo.");
+        }
+        ResponseDto respuesta = serviceEmpresa.getEmpresaByUser(id);
         
        return ResponseEntity.status(respuesta.getStatus()).body(respuesta);
     }

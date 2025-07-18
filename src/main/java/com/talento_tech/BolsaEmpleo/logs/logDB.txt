@@ -295,3 +295,8 @@
 2025-07-13 18:58:05.494 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
 2025-07-13 18:58:05.496 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
 >>>>>>> 6ecabba2f731c2caeca70bcdf96e0a314d830393
+2025-07-17 20:03:12.259 - DB: Se ha obtenido un usuario desde la base de datos: Admin
+2025-07-17 20:03:12.262 - DB: Se ha obtenido un usuario desde la base de datos: PatoVamp
+2025-07-17 20:03:12.266 - DB: Se ha obtenido un usuario desde la base de datos: pruebaxdxd12
+2025-07-17 20:03:12.268 - DB: Se ha obtenido un usuario desde la base de datos: KevinGr2212
+2025-07-17 20:03:12.271 - DB: Se ha obtenido un usuario desde la base de datos: VampGang
