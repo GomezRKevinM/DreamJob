@@ -117,6 +117,7 @@ public class UsuarioController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @CrossOrigin(origins = "*") //Siempres olvidas esto.
     @GetMapping("/roles")
     public ResponseDto getRoles(){
         ArrayList<user_rol> roles = new ArrayList<>();
@@ -126,7 +127,7 @@ public class UsuarioController {
         }
         return new ResponseDto("Roles disponibles",roles,200);
     }
-
+    @CrossOrigin(origins = "*") //Siempres olvidas esto.
     @PatchMapping("/user-rol/")
     public ResponseDto updateRol(@RequestBody Usuario usuario) {
         String sql = "UPDATE usuarios SET rol = ?::user_role WHERE user_id = ?";

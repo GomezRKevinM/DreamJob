@@ -7,6 +7,8 @@ import com.talento_tech.BolsaEmpleo.Entities.Empresa;
 import com.talento_tech.BolsaEmpleo.Entities.OfertaEmpleo;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
+import io.micrometer.core.ipc.http.HttpSender.Response;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +17,9 @@ import java.util.ArrayList;
 
 public class ServiceOfertaEmpleo {
 
-    private Empleador empleador;
 
     public ServiceOfertaEmpleo() {
-        empleador = null;
+        
     }
 
     public ResponseDto agregar(OfertaEmpleo ofertaEmpleo){
@@ -139,7 +140,6 @@ public class ServiceOfertaEmpleo {
                 recibida.setUbicacion(rs.getString("ubicacion"));
                 recibida.setNombreEmpresa(rs.getString("nombre"));
 
-
                 lista.add(recibida);
             }
             return new ResponseDto("Lista de ofertas obtenida",lista,200);
@@ -166,7 +166,7 @@ public class ServiceOfertaEmpleo {
     }
 
     public ResponseDto getOferta(Long id){
-        String sql = "SELECT * FROM ofertatrabajo WHERE id = ?";
+        String sql = "SELECT * FROM ofertatrabajo WHERE id = ? INNER JOIN empresas ON id_empresa = empresa_id";
 
         try(Connection conn = DatabaseConexion.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -192,6 +192,7 @@ public class ServiceOfertaEmpleo {
                 recibida.setIdiomas(rs.getString("idiomas"));
                 recibida.setFechaPublicacion(rs.getTimestamp("fecha_publicacion"));
                 recibida.setUbicacion(rs.getString("ubicacion"));
+                recibida.setNombreEmpresa(rs.getString("nombre"));
 
                 return new ResponseDto("Oferta encontrada con el id "+id,recibida,200);
             }else {
@@ -202,4 +203,87 @@ public class ServiceOfertaEmpleo {
             return new ResponseDto("Error al obtener oferta",error.getMessage(), 500);
         }
     }
+
+    public ResponseDto buscar(String busqueda){
+        String sql = "SELECT * FROM ofertatrabajo WHERE cargo LIKE ?";
+
+        try(Connection conn = DatabaseConexion.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1,"%"+busqueda+"%");
+            ResultSet rs = pstmt.executeQuery();
+            ArrayList<OfertaEmpleo> lista = new ArrayList<OfertaEmpleo>();
+            while(rs.next()){
+                OfertaEmpleo recibida = new OfertaEmpleo();
+                recibida.setId(rs.getLong("id"));
+                recibida.setEmpresa_id(rs.getLong("id_empresa"));
+                recibida.setEmpleador_id(rs.getLong("id_empleador"));
+                recibida.setCargo(rs.getString("cargo"));
+                recibida.setDescripcion(rs.getString("descripcion"));
+                recibida.setRequisitos(rs.getString("requisitos"));
+                recibida.setSalario(rs.getDouble("salario"));
+                recibida.setFechaExpiracion(rs.getDate("fechaexpiracion"));
+                recibida.setTipoContrato(rs.getString("tipo_contrato"));
+                recibida.setModalidad(rs.getString("modalidad"));
+                recibida.setPais(rs.getString("pais"));
+                recibida.setCiudad(rs.getString("ciudad"));
+                recibida.setDepartamento(rs.getString("departamento"));
+                recibida.setNivelEstudios(rs.getString("nivel_estudios"));
+                recibida.setExperienciaLaboral(rs.getString("experiencia_laboral"));
+                recibida.setIdiomas(rs.getString("idiomas"));
+                recibida.setFechaPublicacion(rs.getTimestamp("fecha_publicacion"));
+                recibida.setUbicacion(rs.getString("ubicacion"));
+                recibida.setNombreEmpresa(rs.getString("nombre"));
+                lista.add(recibida);
+            }
+            return new ResponseDto("Ofertas encontradas",lista,200);
+        }catch (SQLException error){
+            return new ResponseDto("Error al buscar ofertas",error.getMessage(), 500);
+        }
+    }
+
+    public ResponseDto filtrar(String busqueda, String pais, String ciudad, String departamento, String nivelEstudios, String experienciaLaboral, String idiomas, String modalidad, String tipoContrato){
+        String sql = "SELECT * FROM ofertatrabajo WHERE cargo LIKE ? AND pais = ? AND ciudad = ? AND departamento = ? AND nivel_estudios = ? AND experiencia_laboral = ? AND idiomas = ? AND modalidad = ? AND tipo_contrato = ?";
+
+        try(Connection conn = DatabaseConexion.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1,"%"+busqueda+"%");
+            pstmt.setString(2,pais);
+            pstmt.setString(3,ciudad);
+            pstmt.setString(4,departamento);
+            pstmt.setString(5,nivelEstudios);
+            pstmt.setString(6,experienciaLaboral);
+            pstmt.setString(7,idiomas);
+            pstmt.setString(8,modalidad);
+            pstmt.setString(9,tipoContrato);
+            ResultSet rs = pstmt.executeQuery();
+            ArrayList<OfertaEmpleo> lista = new ArrayList<OfertaEmpleo>();
+            while(rs.next()){
+                OfertaEmpleo recibida = new OfertaEmpleo();
+                recibida.setId(rs.getLong("id"));
+                recibida.setEmpresa_id(rs.getLong("id_empresa"));
+                recibida.setEmpleador_id(rs.getLong("id_empleador"));
+                recibida.setCargo(rs.getString("cargo"));
+                recibida.setDescripcion(rs.getString("descripcion"));
+                recibida.setRequisitos(rs.getString("requisitos"));
+                recibida.setSalario(rs.getDouble("salario"));
+                recibida.setFechaExpiracion(rs.getDate("fechaexpiracion"));
+                recibida.setTipoContrato(rs.getString("tipo_contrato"));
+                recibida.setModalidad(rs.getString("modalidad"));
+                recibida.setPais(rs.getString("pais"));
+                recibida.setCiudad(rs.getString("ciudad"));
+                recibida.setDepartamento(rs.getString("departamento"));
+                recibida.setNivelEstudios(rs.getString("nivel_estudios"));
+                recibida.setExperienciaLaboral(rs.getString("experiencia_laboral"));
+                recibida.setIdiomas(rs.getString("idiomas"));
+                recibida.setFechaPublicacion(rs.getTimestamp("fecha_publicacion"));
+                recibida.setUbicacion(rs.getString("ubicacion"));
+                recibida.setNombreEmpresa(rs.getString("nombre"));
+                lista.add(recibida);
+            }
+            return new ResponseDto("Ofertas encontradas",lista,200);
+        }catch (SQLException error){
+            return new ResponseDto("Error al buscar ofertas",error.getMessage(), 500);
+        }
+    }
+
 }
