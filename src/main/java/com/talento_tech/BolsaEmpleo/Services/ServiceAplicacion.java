@@ -9,17 +9,18 @@ import java.util.ArrayList;
 
 import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.Aplicacion;
+import com.talento_tech.BolsaEmpleo.Entities.UserSesion;
+import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
 public class ServiceAplicacion {
     
-    public ResponseDto aplicar(Long oferta_id,Long empleado_id) {
+    public ResponseDto aplicar(Long oferta_id, Long empleado_id) {
         String sql = "INSERT INTO aplicaciones (oferta_id,empleado_id,estado) VALUES (?,?,'Aplicado')";
 
         try(Connection conn = DatabaseConexion.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setLong(1,oferta_id);
-            pstmt.setLong(3,oferta_id);
             pstmt.setLong(2,empleado_id);
             int rows =pstmt.executeUpdate();
 

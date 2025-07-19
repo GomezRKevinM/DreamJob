@@ -166,7 +166,7 @@ public class ServiceOfertaEmpleo {
     }
 
     public ResponseDto getOferta(Long id){
-        String sql = "SELECT * FROM ofertatrabajo WHERE id = ? INNER JOIN empresas ON id_empresa = empresa_id";
+        String sql = "SELECT * FROM ofertatrabajo INNER JOIN empresas ON id_empresa = empresa_id WHERE id = ?";
 
         try(Connection conn = DatabaseConexion.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -205,11 +205,10 @@ public class ServiceOfertaEmpleo {
     }
 
     public ResponseDto buscar(String busqueda){
-        String sql = "SELECT * FROM ofertatrabajo WHERE cargo LIKE ?";
+        String sql = "SELECT * FROM ofertatrabajo INNER JOIN empresas ON id_empresa = empresa_id WHERE cargo ILIKE '%"+busqueda+"%'";
 
         try(Connection conn = DatabaseConexion.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1,"%"+busqueda+"%");
             ResultSet rs = pstmt.executeQuery();
             ArrayList<OfertaEmpleo> lista = new ArrayList<OfertaEmpleo>();
             while(rs.next()){
@@ -242,19 +241,15 @@ public class ServiceOfertaEmpleo {
     }
 
     public ResponseDto filtrar(String busqueda, String pais, String ciudad, String departamento, String nivelEstudios, String experienciaLaboral, String idiomas, String modalidad, String tipoContrato){
-        String sql = "SELECT * FROM ofertatrabajo WHERE cargo LIKE ? AND pais = ? AND ciudad = ? AND departamento = ? AND nivel_estudios = ? AND experiencia_laboral = ? AND idiomas = ? AND modalidad = ? AND tipo_contrato = ?";
+        if(busqueda.isEmpty() && pais.isEmpty() && ciudad.isEmpty() && departamento.isEmpty() && nivelEstudios.isEmpty() && experienciaLaboral.isEmpty() && idiomas.isEmpty() && modalidad.isEmpty() && tipoContrato.isEmpty()){
+            return lista();
+        }
+
+        String sql = "SELECT * FROM ofertatrabajo INNER JOIN empresas ON id_empresa = empresa_id WHERE cargo ILIKE '%"+busqueda+"%' AND pais ILIKE '%"+pais+"%' AND ciudad ILIKE '%"+ciudad+"%' AND departamento ILIKE '%"+departamento+"%' AND nivel_estudios ILIKE '%"+nivelEstudios+"%' AND experiencia_laboral ILIKE '%"+experienciaLaboral+"%' AND idiomas ILIKE '%"+idiomas+"%' AND modalidad ILIKE '%"+modalidad+"%' AND tipo_contrato ILIKE '%"+tipoContrato+"%'";
 
         try(Connection conn = DatabaseConexion.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1,"%"+busqueda+"%");
-            pstmt.setString(2,pais);
-            pstmt.setString(3,ciudad);
-            pstmt.setString(4,departamento);
-            pstmt.setString(5,nivelEstudios);
-            pstmt.setString(6,experienciaLaboral);
-            pstmt.setString(7,idiomas);
-            pstmt.setString(8,modalidad);
-            pstmt.setString(9,tipoContrato);
+
             ResultSet rs = pstmt.executeQuery();
             ArrayList<OfertaEmpleo> lista = new ArrayList<OfertaEmpleo>();
             while(rs.next()){

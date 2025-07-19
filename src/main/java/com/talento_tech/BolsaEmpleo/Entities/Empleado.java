@@ -1,11 +1,12 @@
 package com.talento_tech.BolsaEmpleo.Entities;
 
-
-import java.util.ArrayList;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Empleado {
     private long empleado_id;
     private long usuario_id;
