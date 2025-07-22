@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Subir imagen de usuario</title>
+</head>
+<body>
+<h2>Subir imagen de usuario</h2>
+
+<form id="uploadForm">
+    <label>
+        ID del usuario:
+        <input type="number" id="userId" name="id" required />
+    </label>
+    <br />
+    <label>
+        Username:
+        <input type="text" id="username" name="username" required />
+    </label>
+    <br />
+    <label>
+        Imagen:
+        <input type="file" id="fileInput" name="file" accept="image/*" required />
+    </label>
+    <br />
+    <button type="submit">Subir imagen</button>
+</form>
+
+<p id="responseMsg"></p>
+
+<script>
+    const form = document.getElementById("uploadForm");
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const userId = document.getElementById("userId").value;
+        const username = document.getElementById("username").value;
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+
+        if (!file || !userId || !username) {
+            document.getElementById("responseMsg").innerText = "Todos los campos son obligatorios.";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("username", username);
+
+        try {
+            const response = await fetch(`http://localhost:8080/users/upload-image/${userId}`, {
+                method: "POST",
+                body: formData,
+            });
+
+            const result = await response.json();
+            document.getElementById("responseMsg").innerText = result.message || "Imagen subida correctamente";
+        } catch (error) {
+            document.getElementById("responseMsg").innerText = "Error al subir la imagen.";
+        }
+    });
+</script>
+</body>
+</html>

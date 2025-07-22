@@ -129,7 +129,7 @@ public class UsuarioController {
 
         try {
             // Define la carpeta donde se guardará la imagen
-            String uploadDir = "assets/images/usuarios/";
+            String uploadDir = "./src/main/resources/static/assets/images/usuarios/";
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String fileName = "user_" + id + extension;
