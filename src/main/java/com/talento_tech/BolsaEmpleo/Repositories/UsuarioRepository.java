@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,6 +39,7 @@ public class UsuarioRepository {
         user.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
         user.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
         user.setRol(rs.getString("rol"));
+        user.setImagen(rs.getString("imagen"));
         return user;
     };
 
@@ -137,6 +139,11 @@ public class UsuarioRepository {
     public int updateRol(Long id, String rol) {
         String sql = "UPDATE usuarios SET rol = ?::user_role WHERE user_id = ?";
         return jdbcTemplate.update(sql, rol, id);
+    }
+
+    public int updateImagen(Usuario usuario) {
+        String sql = "UPDATE usuarios SET imagen = ? WHERE user_id = ?";
+        return jdbcTemplate.update(sql, usuario.getImagen(), usuario.getId());
     }
 
 }

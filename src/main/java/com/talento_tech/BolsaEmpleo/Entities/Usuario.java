@@ -20,6 +20,7 @@ public class Usuario {
     private tipoID tipoID;
     private Date fechaNacimiento;
     private String rol;
+    private String imagen;
 
     public Usuario() {
 
@@ -144,6 +145,14 @@ public class Usuario {
 
     public void setUltimaModificacion(Timestamp ultimaModificacion) {
         this.ultimaModificacion = ultimaModificacion;    
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
     
 }

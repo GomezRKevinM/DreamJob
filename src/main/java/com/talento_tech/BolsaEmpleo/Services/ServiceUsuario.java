@@ -150,4 +150,16 @@ public class ServiceUsuario {
         }
     }
 
+    public ResponseDto editarUsuarioImagen(Usuario usuario) {
+        try {
+            int result = usuarioRepository.updateImagen(usuario);
+            return result > 0
+                    ? new ResponseDto("Imagen de usuario actualizada exitosamente", usuario, 200)
+                    : new ResponseDto("No se pudo actualizar la imagen del usuario", null, 400);
+        } catch (Exception e) {
+            return new ResponseDto("Error al actualizar imagen", e.getMessage(), 500);
+        }
+    }
+
+
 }

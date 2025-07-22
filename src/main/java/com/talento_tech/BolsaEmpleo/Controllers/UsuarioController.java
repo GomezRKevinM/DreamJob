@@ -11,7 +11,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 
@@ -110,4 +117,43 @@ public class UsuarioController {
         ResponseDto response = serviceUsuario.actualizarRol(usuario);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+    @PostMapping("/upload-image/{id}")
+    @CrossOrigin(origins = "*")
+    @Operation(summary = "Subir imagen de perfil de un usuario")
+    public ResponseEntity<ResponseDto> uploadUserImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body(new ResponseDto("Archivo vacío", null, 400));
+        }
+
+        try {
+            // Define la carpeta donde se guardará la imagen
+            String uploadDir = "assets/images/usuarios/";
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String fileName = "user_" + id + extension;
+
+            // Crear la carpeta si no existe
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            // Guardar el archivo
+            Path filePath = Paths.get(uploadDir + fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Actualizar usuario con la ruta del archivo
+            Usuario usuario = new Usuario();
+            usuario.setId(id);
+            usuario.setImagen(fileName);
+
+            ResponseDto response = serviceUsuario.editarUsuarioImagen(usuario); // Método que debes crear
+            return ResponseEntity.status(response.getStatus()).body(response);
+
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(new ResponseDto("Error al guardar imagen", e.getMessage(), 500));
+        }
+    }
+
 }

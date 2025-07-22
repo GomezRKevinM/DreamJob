@@ -48,7 +48,7 @@ public class OfertaController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<ResponseDto> listar() {
         ResponseDto response = serviceOfertaEmpleo.listar();
         return ResponseEntity.status(response.getStatus()).body(response);
