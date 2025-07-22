@@ -1,5 +1,6 @@
 package com.talento_tech.BolsaEmpleo.Controllers;
 
+import com.talento_tech.BolsaEmpleo.Entities.Login;
 import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.Entities.user_rol;
 import com.talento_tech.BolsaEmpleo.Services.ServiceUsuario;
@@ -85,8 +86,8 @@ public class UsuarioController {
 
     @PatchMapping("/login")
     @Operation(summary = "Iniciar sesión de usuario", description = "Permite a un usuario iniciar sesión proporcionando su nombre de usuario y contraseña.")
-    public ResponseEntity<ResponseDto> login(@RequestBody Usuario user) {
-        ResponseDto response = serviceUsuario.login(user);
+    public ResponseEntity<ResponseDto> login(@RequestBody Login datos) {
+        ResponseDto response = serviceUsuario.login(datos.getInput(), datos.getPassword() );
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
@@ -154,6 +155,14 @@ public class UsuarioController {
         } catch (IOException e) {
             return ResponseEntity.status(500).body(new ResponseDto("Error al guardar imagen", e.getMessage(), 500));
         }
+    }
+
+    @PatchMapping("/update-password")
+    @CrossOrigin(origins = "*")
+    @Operation(summary = "Cambiar contraseña de un usuario")
+    public ResponseEntity<ResponseDto> uploadPassword(@RequestBody Usuario usuario) {
+        ResponseDto response = serviceUsuario.cambiarPassword(usuario);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
 }

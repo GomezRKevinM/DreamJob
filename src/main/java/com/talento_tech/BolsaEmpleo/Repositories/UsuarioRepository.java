@@ -117,19 +117,25 @@ public class UsuarioRepository {
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
-    public Optional<Usuario> findByUsernameOrEmailAndPassword(Usuario usuario) {
-        String sql = "";
-        Object firstQuery = new Object();
-        if(usuario.getEmail() != null && usuario.getPassword() != null) {
-            sql = "SELECT * FROM usuarios WHERE email = ? AND password = crypt(?, password ) ";
-            firstQuery = usuario.getEmail();
-        }
-        if(usuario.getUsername() != null && usuario.getPassword() != null) {
+    public Optional<Usuario> findByUsernameOrEmailAndPassword(String input, String password) {
+        // Regex pattern for basic email validation
+        final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+
+        String sql;
+        Object queryParam;
+
+        if (EMAIL_PATTERN.matcher(input).matches()) {
+            // If input matches email pattern, search by email
+            sql = "SELECT * FROM usuarios WHERE email = ? AND password = crypt(?, password)";
+            queryParam = input;
+        } else {
+            // Otherwise search by username
             sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
-            firstQuery = usuario.getUsername();
+            queryParam = input;
         }
+
         try {
-            Usuario user = jdbcTemplate.queryForObject(sql, new Object[]{firstQuery,usuario.getPassword()}, usuarioRowMapper);
+            Usuario user = jdbcTemplate.queryForObject(sql, new Object[]{queryParam, password}, usuarioRowMapper);
             return Optional.ofNullable(user);
         } catch (Exception e) {
             return Optional.empty();
@@ -144,6 +150,11 @@ public class UsuarioRepository {
     public int updateImagen(Usuario usuario) {
         String sql = "UPDATE usuarios SET imagen = ? WHERE user_id = ?";
         return jdbcTemplate.update(sql, usuario.getImagen(), usuario.getId());
+    }
+
+    public int updatePassword(Usuario usuario) {
+        String sql = "UPDATE usuarios SET password = crypt(?,gen_salt('md5')) WHERE user_id = ?";
+        return jdbcTemplate.update(sql, usuario.getPassword(), usuario.getId());
     }
 
 }

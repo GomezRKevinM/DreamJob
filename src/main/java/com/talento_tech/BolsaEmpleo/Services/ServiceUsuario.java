@@ -87,12 +87,8 @@ public class ServiceUsuario {
         return usuarioRepository.count();
     }
 
-    public ResponseDto login(Usuario object) {
-        if (usuarioEnSesion != null) {
-            return new ResponseDto("El usuario ya ha iniciado sesión", null, 401);
-        }
-
-        Optional<Usuario> usuario = usuarioRepository.findByUsernameOrEmailAndPassword(object);
+    public ResponseDto login(String input, String password) {
+        Optional<Usuario> usuario = usuarioRepository.findByUsernameOrEmailAndPassword(input, password);
 
         if (usuario.isPresent()) {
             usuarioEnSesion = usuario.get();
@@ -161,5 +157,17 @@ public class ServiceUsuario {
         }
     }
 
+    public ResponseDto cambiarPassword(Usuario usuario){
+        try {
+            int filasAfectadas = usuarioRepository.updatePassword(usuario);
+            if (filasAfectadas > 0) {
+                return new ResponseDto("Contraseña actualizada exitosamente", filasAfectadas, 200);
+            } else {
+                return new ResponseDto("No se pudo cambiar la contraseña", null, 500);
+            }
+        }catch (Exception e){
+            return new ResponseDto("Error al actualizar cambiar contraseña: "+e.getMessage(), e.getMessage(), 500);
+        }
+    }
 
 }
