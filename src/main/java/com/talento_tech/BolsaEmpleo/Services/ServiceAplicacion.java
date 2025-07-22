@@ -1,117 +1,96 @@
 package com.talento_tech.BolsaEmpleo.Services;
 
-import java.lang.reflect.Array;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.Aplicacion;
-import com.talento_tech.BolsaEmpleo.Entities.UserSesion;
-import com.talento_tech.BolsaEmpleo.Entities.Usuario;
+import com.talento_tech.BolsaEmpleo.Repositories.AplicacionRepository;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class ServiceAplicacion {
-    
+
+    private final AplicacionRepository aplicacionRepository;
+
+    @Autowired
+    public ServiceAplicacion(AplicacionRepository aplicacionRepository) {
+        this.aplicacionRepository = aplicacionRepository;
+    }
+
     public ResponseDto aplicar(Long oferta_id, Long empleado_id) {
-        String sql = "INSERT INTO aplicaciones (oferta_id,empleado_id,estado) VALUES (?,?,'Aplicado')";
+        Aplicacion aplicacion = new Aplicacion();
+        aplicacion.setIdEmpleado(empleado_id);
+        aplicacion.setIdOfertaEmpleo(oferta_id);
+        aplicacion.setEstado("Aplicado");
+        aplicacion.setComentario(""); // opcional: por defecto vacío
 
-        try(Connection conn = DatabaseConexion.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setLong(1,oferta_id);
-            pstmt.setLong(2,empleado_id);
-            int rows =pstmt.executeUpdate();
-
-            if(rows > 0){
-                return new ResponseDto("usuario aplicado a la Oferta de Empleo exitosamente",rows,200);
-            }else{
-                return new ResponseDto("Error al aplicar oferta",null,500);
+        try {
+            int rows = aplicacionRepository.save(aplicacion);
+            if (rows > 0) {
+                return new ResponseDto("Usuario aplicado a la oferta de empleo exitosamente", rows, 200);
+            } else {
+                return new ResponseDto("Error al aplicar oferta", null, 500);
             }
-        }catch (SQLException error){
-            return new ResponseDto("Error al aplicar oferta",error.getMessage(), 500);
+        } catch (Exception e) {
+            return new ResponseDto("Error al aplicar oferta", e.getMessage(), 500);
         }
     }
 
-    public ResponseDto update(Long id,String estado,String comentario){
-        String sql = "UPDATE aplicaciones SET estado = ? WHERE id = ?";
-        try(Connection conn = DatabaseConexion.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1,estado);
-            pstmt.setLong(2,id);
-            pstmt.setString(3,comentario);
-            int rows = pstmt.executeUpdate();
-            if(rows > 0){
-                return new ResponseDto("Aplicacion actualizada exitosamente",rows,200);
-            }else{
-                return new ResponseDto("Error al actualizar la aplicacion",null,500);
+    public ResponseDto update(Long id, String estado, String comentario) {
+        Optional<Aplicacion> optional = aplicacionRepository.findById(id);
+        if (optional.isPresent()) {
+            Aplicacion aplicacion = optional.get();
+            aplicacion.setEstado(estado);
+            aplicacion.setComentario(comentario);
+
+            try {
+                int rows = aplicacionRepository.update(aplicacion);
+                if (rows > 0) {
+                    return new ResponseDto("Aplicación actualizada exitosamente", rows, 200);
+                } else {
+                    return new ResponseDto("No se pudo actualizar la aplicación", null, 500);
+                }
+            } catch (Exception e) {
+                return new ResponseDto("Error al actualizar la aplicación", e.getMessage(), 500);
             }
-        }catch (SQLException error){
-            return new ResponseDto("Error al actualizar la aplicacion",error.getMessage(), 500);
+        } else {
+            return new ResponseDto("No se encontró la aplicación #" + id, null, 404);
         }
     }
 
-    public ResponseDto eliminar(Long id){
-        String sql = "DELETE FROM aplicaciones WHERE id = ?";
-        try(Connection conn = DatabaseConexion.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setLong(1,id);
-            int rows = pstmt.executeUpdate();
-            if(rows > 0){
-                return new ResponseDto("Aplicacion eliminada exitosamente",rows,200);
-            }else{
-                return new ResponseDto("Error al eliminar la aplicacion",null,500);
+    public ResponseDto eliminar(Long id) {
+        try {
+            int rows = aplicacionRepository.deleteById(id);
+            if (rows > 0) {
+                return new ResponseDto("Aplicación eliminada exitosamente", rows, 200);
+            } else {
+                return new ResponseDto("No se pudo eliminar la aplicación", null, 500);
             }
-        }catch (SQLException error){
-            return new ResponseDto("Error al eliminar la aplicacion",error.getMessage(), 500);
+        } catch (Exception e) {
+            return new ResponseDto("Error al eliminar la aplicación", e.getMessage(), 500);
         }
     }
 
-    public ResponseDto getByOferta(Long id){
-        String sql = "SELECT * FROM aplicaciones WHERE oferta_id = ? ";
-
-        try(Connection conn = DatabaseConexion.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setLong(1,id);
-            ResultSet rs = pstmt.executeQuery();
-            ArrayList<Aplicacion> aplicaciones = new ArrayList<Aplicacion>();
-            while(rs.next()){
-                Aplicacion aplicacion = new Aplicacion();
-                aplicacion.setId(rs.getLong("id"));
-                aplicacion.setIdOfertaEmpleo(rs.getLong("oferta_id"));
-                aplicacion.setIdEmpleado(rs.getLong("empleado_id"));
-                aplicacion.setEstado(rs.getString("estado"));
-                aplicacion.setComentario(rs.getString("comentario"));
-                aplicaciones.add(aplicacion);
-            }
-            return new ResponseDto("Aplicaciones obtenidas exitosamente",aplicaciones,200);
-        }catch (SQLException error){
-            return new ResponseDto("Error al obtener las aplicaciones",error.getMessage(), 500);
+    public ResponseDto getByOferta(Long ofertaId) {
+        try {
+            List<Aplicacion> todas = aplicacionRepository.findAll();
+            List<Aplicacion> filtradas = todas.stream()
+                    .filter(a -> a.getIdOfertaEmpleo().equals(ofertaId))
+                    .toList();
+            return new ResponseDto("Aplicaciones obtenidas exitosamente", filtradas, 200);
+        } catch (Exception e) {
+            return new ResponseDto("Error al obtener las aplicaciones", e.getMessage(), 500);
         }
     }
 
-    public ResponseDto get(Long id){
-        String sql = "SELECT * FROM aplicaciones WHERE id = ? ";
-
-        try(Connection conn = DatabaseConexion.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setLong(1,id);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next()){
-                Aplicacion aplicacion = new Aplicacion();
-                aplicacion.setId(rs.getLong("id"));
-                aplicacion.setIdOfertaEmpleo(rs.getLong("oferta_id"));
-                aplicacion.setIdEmpleado(rs.getLong("empleado_id"));
-                aplicacion.setEstado(rs.getString("estado"));
-                aplicacion.setComentario(rs.getString("comentario"));
-                return new ResponseDto("Aplicacion obtenida exitosamente",aplicacion,200);
-            }else{
-                return new ResponseDto("No se encontro la aplicacion #"+id,null,404);
-            }
-        }catch (SQLException error){
-            return new ResponseDto("Error al obtener la aplicacion",error.getMessage(), 500);
+    public ResponseDto get(Long id) {
+        Optional<Aplicacion> optional = aplicacionRepository.findById(id);
+        if (optional.isPresent()) {
+            return new ResponseDto("Aplicación obtenida exitosamente", optional.get(), 200);
+        } else {
+            return new ResponseDto("No se encontró la aplicación #" + id, null, 404);
         }
     }
-
 }

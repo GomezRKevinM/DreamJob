@@ -19,6 +19,7 @@ public class Empresa {
     private ArrayList<OfertaEmpleo> ofertas;
     private ArrayList<Empleado> empleados;
     private ArrayList<OfertaEmpleo> ofertasDesactivadas;
+    private Long usuaro_id;
 
     public Empresa(String nombre, String descripcion, String logo, String telefono, String direccion, String email, String web, String tipoEmpresa, String NIT, String representante, String identificacionRepresentante, String tipoIdentificacionRepresentante) {
         this.nombre = nombre;
@@ -164,5 +165,13 @@ public class Empresa {
 
     public void setOfertasDesactivadas(ArrayList<OfertaEmpleo> ofertasDesactivadas) {
         this.ofertasDesactivadas = ofertasDesactivadas;
+    }
+
+    public Long getUsuaro_id(){
+        return usuaro_id;
+    }
+
+    public void setUsuaro_id(Long usuaro_id){
+        this.usuaro_id = usuaro_id;
     }
 }

@@ -147,3 +147,7 @@
 2025-07-13 18:58:04.528 - DB: Se ha solicitado la lista de usuarios desde IP: null
 >>>>>>> 6ecabba2f731c2caeca70bcdf96e0a314d830393
 2025-07-17 20:03:11.341 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-07-19 20:15:12.791 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-07-19 20:15:17.066 - DB: Error al obtener la lista de usuarios desde el servicio de usuario: FATAL: Max client connections reached
+2025-07-19 20:16:30.716 - DB: Se ha solicitado la lista de usuarios desde IP: null
+2025-07-19 20:16:31.468 - DB: Error al obtener la lista de usuarios desde el servicio de usuario: FATAL: Max client connections reached

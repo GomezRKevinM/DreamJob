@@ -15,6 +15,20 @@ public class Educacion {
     private String ciudad;
     private long empleado_id;
 
+    public Educacion() {
+        id = 0;
+        institucion = "";
+        tipo_institucion = "";
+        titulo = "";
+        fecha_inicio = null;
+        fecha_fin = null;
+        cursando_actualmente = false;
+        pais = "";
+        departamento = "";
+        ciudad = "";
+        empleado_id = 0;
+    }
+
     public Educacion(long id, String institucion, String tipo_institucion, String titulo, Date fecha_inicio, boolean cursando_actualmente, String pais, String departamento, String ciudad, long empleado_id) {
         this.id = id;
         this.institucion = institucion;

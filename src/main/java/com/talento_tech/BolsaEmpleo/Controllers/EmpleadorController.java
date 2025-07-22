@@ -3,15 +3,19 @@ package com.talento_tech.BolsaEmpleo.Controllers;
 import com.talento_tech.BolsaEmpleo.Entities.Empleador;
 import com.talento_tech.BolsaEmpleo.Services.ServiceEmpleador;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/empleadores")
 public class EmpleadorController {
-    ServiceEmpleador serviceEmpleador;
-    public EmpleadorController() {
-        serviceEmpleador = new ServiceEmpleador();
+
+    private final ServiceEmpleador serviceEmpleador;
+
+    @Autowired
+    public EmpleadorController(ServiceEmpleador serviceEmpleador) {
+        this.serviceEmpleador = serviceEmpleador;
     }
 
     @GetMapping("/{id}")
@@ -19,8 +23,8 @@ public class EmpleadorController {
         ResponseDto response = serviceEmpleador.getEmpleador(id);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
-    
-    @GetMapping("user/{id}")
+
+    @GetMapping("/user/{id}")
     public ResponseEntity<ResponseDto> getEmpleadorByUser(@PathVariable Long id) {
         ResponseDto response = serviceEmpleador.getEmpleadorByUser(id);
         return ResponseEntity.status(response.getStatus()).body(response);
@@ -39,8 +43,8 @@ public class EmpleadorController {
     }
 
     @DeleteMapping("/remove/{empleadorId}")
-    public ResponseEntity<ResponseDto> deleteEmpleador(@PathVariable Long id) {
-        ResponseDto response = serviceEmpleador.deleteEmpleador(id);
+    public ResponseEntity<ResponseDto> deleteEmpleador(@PathVariable("empleadorId") Long empleadorId) {
+        ResponseDto response = serviceEmpleador.deleteEmpleador(empleadorId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

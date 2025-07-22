@@ -1,153 +1,87 @@
 package com.talento_tech.BolsaEmpleo.Services;
 
-import com.talento_tech.BolsaEmpleo.Controllers.DatabaseConexion;
 import com.talento_tech.BolsaEmpleo.Entities.Educacion;
+import com.talento_tech.BolsaEmpleo.Repositories.EducacionRepository;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Service
 public class ServiceEducacion {
 
+    private final EducacionRepository educacionRepository;
+
+    @Autowired
+    public ServiceEducacion(EducacionRepository educacionRepository) {
+        this.educacionRepository = educacionRepository;
+    }
+
     public ResponseDto getEducacion(Long id) {
-        String sql = "SELECT * FROM educacion WHERE id = ?";
-
-        try(Connection conn = DatabaseConexion.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, id);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
-                Educacion educacion = new Educacion(
-                        id,
-                        rs.getString("institucion"),
-                        rs.getString("tipo_instituto"),
-                        rs.getString("titulo"),
-                        rs.getDate("inicio"),
-                        rs.getBoolean("cursando_actualmente"),
-                        rs.getString("pais"),
-                        rs.getString("departamento"),
-                        rs.getString("ciudad"),
-                        rs.getLong("empleado_id") );
-                educacion.setFecha_fin(rs.getDate("termino"));
-
-                return new ResponseDto("Educación encontrada",educacion,200);
-            }else{
-                return new ResponseDto("No se encontro educación con el #"+id,null,404);
+        try {
+            Optional<Educacion> educacion = educacionRepository.findById(id);
+            if (educacion.isPresent()) {
+                return new ResponseDto("Educación encontrada", educacion.get(), 200);
+            } else {
+                return new ResponseDto("No se encontró educación con el ID #" + id, null, 404);
             }
-
-        }catch (SQLException error){
-            return  new ResponseDto("Error al obtener educación #"+id,error.getMessage(),500);
+        } catch (Exception e) {
+            return new ResponseDto("Error al obtener educación #" + id, e.getMessage(), 500);
         }
     }
 
-    public ResponseDto getEducacionByEmpleadoId(Long id){
-        String sql = "SELECT * FROM educacion WHERE empleado_id = ?";
+    public ResponseDto getEducacionByEmpleadoId(Long empleadoId) {
+        try {
+            List<Educacion> todas = educacionRepository.findAll();
+            List<Educacion> filtradas = todas.stream()
+                    .filter(e -> e.getEmpleado_id() == empleadoId)
+                    .collect(Collectors.toList());
 
-        try(Connection conn = DatabaseConexion.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            ArrayList<Educacion> educaciones = new ArrayList<Educacion>();
-            while(rs.next()) {
-                Educacion educacion = new Educacion(
-                        id,
-                        rs.getString("institucion"),
-                        rs.getString("tipo_instituto"),
-                        rs.getString("titulo"),
-                        rs.getDate("inicio"),
-                        rs.getBoolean("cursando_actualmente"),
-                        rs.getString("pais"),
-                        rs.getString("departamento"),
-                        rs.getString("ciudad"),
-                        id );
-                educacion.setFecha_fin(rs.getDate("termino"));
-
-                educaciones.add(educacion);
-            }
-            return new ResponseDto("Lista de educación obtenida",educaciones,200);
-        }catch (SQLException error){
-            return new ResponseDto("Error al obtener educación del usuario",error.getMessage(),500);
+            return new ResponseDto("Lista de educación obtenida", filtradas, 200);
+        } catch (Exception e) {
+            return new ResponseDto("Error al obtener educación del usuario", e.getMessage(), 500);
         }
     }
 
-    public ResponseDto agregar(Educacion educacion){
-        String sql = "INSERT INTO educacion (institucion, tipo_instituto, titulo, inicio, termino, cursando_actualmente, pais, departamento, ciudad, empleado_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try(Connection conn = DatabaseConexion.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, educacion.getInstitucion());
-            ps.setString(2,educacion.getTipo_institucion());
-            ps.setString(3, educacion.getTitulo());
-            ps.setDate(4,educacion.getFecha_inicio());
-            ps.setDate(5,educacion.getFecha_fin());
-            ps.setBoolean(6,educacion.getCursando_actualmente());
-            ps.setString(7,educacion.getPais());
-            ps.setString(8,educacion.getDepartamento());
-            ps.setString(9,educacion.getCiudad());
-            ps.setLong(10,educacion.getEmpleado_id());
-
-            int filas = ps.executeUpdate();
-
-            if(filas > 0){
-                return new ResponseDto("Educación agregada exitosamente",educacion,200);
-            }else{
-                return new ResponseDto("No se pudo agregar la educación",null,400);
+    public ResponseDto agregar(Educacion educacion) {
+        try {
+            int filas = educacionRepository.save(educacion);
+            if (filas > 0) {
+                return new ResponseDto("Educación agregada exitosamente", educacion, 200);
+            } else {
+                return new ResponseDto("No se pudo agregar la educación", null, 400);
             }
-        }catch(SQLException error){
-            return new ResponseDto("Error al agregar el educacion",error.getMessage(),500);
+        } catch (Exception e) {
+            return new ResponseDto("Error al agregar educación", e.getMessage(), 500);
         }
     }
 
-    public ResponseDto actualizar(Educacion educacion){
-        String sql = "UPDATE educacion SET institucion = ?, tipo_instituto = ?, titulo = ?, inicio = ?, termino = ?, cursando_actualmente = ?, pais = ?, departamento = ?, ciudad = ? WHERE id = ?";
-
-        try(Connection conn = DatabaseConexion.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, educacion.getInstitucion());
-            ps.setString(2, educacion.getTipo_institucion());
-            ps.setString(3, educacion.getTitulo());
-            ps.setDate(4, educacion.getFecha_inicio());
-            ps.setDate(5, educacion.getFecha_fin());
-            ps.setBoolean(6, educacion.getCursando_actualmente());
-            ps.setString(7, educacion.getPais());
-            ps.setString(8, educacion.getDepartamento());
-            ps.setString(9, educacion.getCiudad());
-            ps.setLong(10,educacion.getId());
-
-            int filas = ps.executeUpdate();
-
-            if(filas > 0){
-                return new ResponseDto("Datos de educación actualizados exitosamente",educacion,200);
-            }else{
-                return new ResponseDto("No se pudo actualizar los datos de la educación",null,400);
+    public ResponseDto actualizar(Educacion educacion) {
+        try {
+            int filas = educacionRepository.update(educacion);
+            if (filas > 0) {
+                return new ResponseDto("Datos de educación actualizados exitosamente", educacion, 200);
+            } else {
+                return new ResponseDto("No se pudo actualizar los datos de la educación", null, 400);
             }
-
-        }catch(SQLException error){
-            return new ResponseDto("Error al actualizar educación",error.getMessage(),500);
+        } catch (Exception e) {
+            return new ResponseDto("Error al actualizar educación", e.getMessage(), 500);
         }
     }
 
-    public ResponseDto eliminar(Long id){
-        String sql = "DELETE FROM educacion WHERE id = ?";
-
-        try(Connection conn = DatabaseConexion.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, id);
-
-            int filas = ps.executeUpdate();
-
-            if(filas > 0){
-                return new ResponseDto("Educación eliminada exitosamente",id,200);
-            }else{
-                return new ResponseDto("No se pudo eliminar la educación",null,400);
+    public ResponseDto eliminar(Long id) {
+        try {
+            int filas = educacionRepository.deleteById(id);
+            if (filas > 0) {
+                return new ResponseDto("Educación eliminada exitosamente", id, 200);
+            } else {
+                return new ResponseDto("No se pudo eliminar la educación", null, 400);
             }
-
-        }catch (SQLException error){
-            return new ResponseDto("Error al eliminar datos",error.getMessage(),500);
+        } catch (Exception e) {
+            return new ResponseDto("Error al eliminar datos", e.getMessage(), 500);
         }
     }
 }
