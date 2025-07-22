@@ -122,7 +122,7 @@ public class UsuarioController {
     @PostMapping("/upload-image/{id}")
     @CrossOrigin(origins = "*")
     @Operation(summary = "Subir imagen de perfil de un usuario")
-    public ResponseEntity<ResponseDto> uploadUserImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ResponseDto> uploadUserImage(@PathVariable Long id, @RequestParam("file") MultipartFile file,@RequestParam String username) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body(new ResponseDto("Archivo vacío", null, 400));
         }
@@ -148,6 +148,7 @@ public class UsuarioController {
             Usuario usuario = new Usuario();
             usuario.setId(id);
             usuario.setImagen(fileName);
+            usuario.setUsername(username);
 
             ResponseDto response = serviceUsuario.editarUsuarioImagen(usuario); // Método que debes crear
             return ResponseEntity.status(response.getStatus()).body(response);
