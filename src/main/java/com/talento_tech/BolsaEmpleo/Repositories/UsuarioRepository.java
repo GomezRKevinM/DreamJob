@@ -37,6 +37,7 @@ public class UsuarioRepository {
         user.setTipoID(com.talento_tech.BolsaEmpleo.Entities.tipoID.valueOf(rs.getString("tipoid")));
         user.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
         user.setUltimaModificacion(rs.getTimestamp("fecha_ultima_modificacion"));
+        user.setRol(rs.getString("rol"));
         return user;
     };
 
@@ -114,16 +115,20 @@ public class UsuarioRepository {
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
-    public Optional<Usuario> findByUsernameOrEmailAndPassword(String input, String password) {
-        String sql = Pattern.matches(
-                "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$",
-                input)
-                ? "SELECT * FROM usuarios WHERE email = ? AND password = crypt(?, password)"
-                : "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
-
+    public Optional<Usuario> findByUsernameOrEmailAndPassword(Usuario usuario) {
+        String sql = "";
+        Object firstQuery = new Object();
+        if(usuario.getEmail() != null && usuario.getPassword() != null) {
+            sql = "SELECT * FROM usuarios WHERE email = ? AND password = crypt(?, password ) ";
+            firstQuery = usuario.getEmail();
+        }
+        if(usuario.getUsername() != null && usuario.getPassword() != null) {
+            sql = "SELECT * FROM usuarios WHERE username = ? AND password = crypt(?, password)";
+            firstQuery = usuario.getUsername();
+        }
         try {
-            Usuario usuario = jdbcTemplate.queryForObject(sql, new Object[]{input, password}, usuarioRowMapper);
-            return Optional.ofNullable(usuario);
+            Usuario user = jdbcTemplate.queryForObject(sql, new Object[]{firstQuery,usuario.getPassword()}, usuarioRowMapper);
+            return Optional.ofNullable(user);
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -133,6 +138,5 @@ public class UsuarioRepository {
         String sql = "UPDATE usuarios SET rol = ?::user_role WHERE user_id = ?";
         return jdbcTemplate.update(sql, rol, id);
     }
-
 
 }

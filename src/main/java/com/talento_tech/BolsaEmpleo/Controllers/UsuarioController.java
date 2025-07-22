@@ -79,12 +79,7 @@ public class UsuarioController {
     @PatchMapping("/login")
     @Operation(summary = "Iniciar sesión de usuario", description = "Permite a un usuario iniciar sesión proporcionando su nombre de usuario y contraseña.")
     public ResponseEntity<ResponseDto> login(@RequestBody Usuario user) {
-        ResponseDto response;
-        if (user.getEmail() != null && user.getPassword() != null) {
-            response = serviceUsuario.login(user.getEmail(), user.getPassword());
-        } else {
-            response = serviceUsuario.login(user.getUsername(), user.getPassword());
-        }
+        ResponseDto response = serviceUsuario.login(user);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

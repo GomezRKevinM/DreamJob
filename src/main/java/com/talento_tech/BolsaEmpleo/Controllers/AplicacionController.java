@@ -26,10 +26,11 @@ public class AplicacionController {
         this.mapper = new ObjectMapper();
     }
 
-    @PostMapping("/aplicar")
-    public ResponseEntity<ResponseDto> aplicar(@RequestBody Aplicacion aplicacion) {
+    @PostMapping("/aplicar/{id}")
+    public ResponseEntity<ResponseDto> aplicar(@PathVariable Long id) {
         try {
             String url = "http://localhost:8080/users/user-session";
+            Long empleadoID = 0L;
             ResponseDto usuario = restTemplate.getForObject(url, ResponseDto.class);
 
             if (usuario != null && usuario.getData() != null) {
@@ -38,12 +39,14 @@ public class AplicacionController {
                     return ResponseEntity
                             .status(401)
                             .body(new ResponseDto("Rol no autorizado para aplicar a la oferta", userSesion.getUser(), 401));
+                }else{
+                    empleadoID = userSesion.getRolEmpleado().getEmpleado_id();
                 }
             }
 
             ResponseDto response = serviceAplicacion.aplicar(
-                    aplicacion.getIdOfertaEmpleo(),
-                    aplicacion.getIdEmpleado()
+                    id,
+                    empleadoID
             );
 
             return ResponseEntity.status(response.getStatus()).body(response);

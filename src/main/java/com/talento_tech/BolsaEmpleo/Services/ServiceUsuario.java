@@ -22,7 +22,7 @@ public class ServiceUsuario {
     private final ServiceEmpleador serviceEmpleador;
 
     private Usuario usuarioEnSesion;
-    private UserSesion userSesion;
+    private UserSesion sesion;
 
     @Autowired
     public ServiceUsuario(UsuarioRepository usuarioRepository,
@@ -87,16 +87,12 @@ public class ServiceUsuario {
         return usuarioRepository.count();
     }
 
-    public ResponseDto login(String username, String password) {
+    public ResponseDto login(Usuario object) {
         if (usuarioEnSesion != null) {
             return new ResponseDto("El usuario ya ha iniciado sesión", null, 401);
         }
 
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            return new ResponseDto("Los campos username y password son obligatorios", null, 400);
-        }
-
-        Optional<Usuario> usuario = usuarioRepository.findByUsernameOrEmailAndPassword(username, password);
+        Optional<Usuario> usuario = usuarioRepository.findByUsernameOrEmailAndPassword(object);
 
         if (usuario.isPresent()) {
             usuarioEnSesion = usuario.get();
@@ -118,29 +114,27 @@ public class ServiceUsuario {
     public ResponseDto getUserSession() {
         if (usuarioEnSesion == null) {
             return new ResponseDto("No hay usuario en sesión", null, 404);
+        }else{
+            sesion = new UserSesion(usuarioEnSesion);
+            switch (usuarioEnSesion.getRol()) {
+                case "empleado":
+                    ResponseDto empleadoResp = serviceEmpleado.getEmpleadoByUser(usuarioEnSesion.getId());
+                    sesion.setRolEmpleado((Empleado) empleadoResp.getData());
+                    break;
+                case "empresa":
+                    ResponseDto empresaResp = serviceEmpresa.getEmpresaByUser(usuarioEnSesion.getId());
+                    sesion.setRolEmpresa((Empresa) empresaResp.getData());
+                    break;
+                case "empleador":
+                    ResponseDto empleadorResp = serviceEmpleador.getEmpleadorByUser(usuarioEnSesion.getId());
+                    sesion.setRolEmpleador((Empleador) empleadorResp.getData());
+                    break;
+                default:
+                    return new ResponseDto("Este rol no existe", "este usuario es un admin", 200);
+            }
+
+            return new ResponseDto("Usuario en sesión", sesion, 200);
         }
-
-        userSesion = new UserSesion();
-        userSesion.setUser(usuarioEnSesion);
-
-        switch (usuarioEnSesion.getRol()) {
-            case "empleado":
-                ResponseDto empleadoResp = serviceEmpleado.getEmpleadoByUser(usuarioEnSesion.getId());
-                userSesion.setRolEmpleado((Empleado) empleadoResp.getData());
-                break;
-            case "empresa":
-                ResponseDto empresaResp = serviceEmpresa.getEmpresaByUser(usuarioEnSesion.getId());
-                userSesion.setRolEmpresa((Empresa) empresaResp.getData());
-                break;
-            case "empleador":
-                ResponseDto empleadorResp = serviceEmpleador.getEmpleadorByUser(usuarioEnSesion.getId());
-                userSesion.setRolEmpleador((Empleador) empleadorResp.getData());
-                break;
-            default:
-                return new ResponseDto("Este rol no existe", "este usuario es un admin", 200);
-        }
-
-        return new ResponseDto("Usuario en sesión", userSesion, 200);
     }
 
     public ResponseDto actualizarRol(Usuario usuario) {
