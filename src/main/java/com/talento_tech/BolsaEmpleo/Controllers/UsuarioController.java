@@ -26,7 +26,6 @@ import java.util.List;
 @Tag(name = "Usuario Controller", description = "Controlador para manejar las operaciones de usuario")
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     private final ServiceUsuario serviceUsuario;
@@ -120,7 +119,6 @@ public class UsuarioController {
     }
 
     @PostMapping("/upload-image/{id}")
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Subir imagen de perfil de un usuario")
     public ResponseEntity<ResponseDto> uploadUserImage(@PathVariable Long id, @RequestParam("file") MultipartFile file,@RequestParam String username) {
         if (file.isEmpty()) {
@@ -159,7 +157,6 @@ public class UsuarioController {
     }
 
     @PatchMapping("/update-password")
-    @CrossOrigin(origins = "*")
     @Operation(summary = "Cambiar contraseña de un usuario")
     public ResponseEntity<ResponseDto> uploadPassword(@RequestBody Usuario usuario) {
         ResponseDto response = serviceUsuario.cambiarPassword(usuario);

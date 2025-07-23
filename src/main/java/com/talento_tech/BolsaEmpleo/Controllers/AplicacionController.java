@@ -5,6 +5,9 @@ import com.talento_tech.BolsaEmpleo.Entities.Aplicacion;
 import com.talento_tech.BolsaEmpleo.Entities.UserSesion;
 import com.talento_tech.BolsaEmpleo.Services.ServiceAplicacion;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/aplicacion")
-@CrossOrigin(origins = "*")
 public class AplicacionController {
 
     private final ServiceAplicacion serviceAplicacion;
@@ -27,6 +29,7 @@ public class AplicacionController {
     }
 
     @PostMapping("/aplicar/{id}")
+    @Operation(summary = "Aplicar oferta de trabajo")
     public ResponseEntity<ResponseDto> aplicar(@PathVariable Long id) {
         try {
             String url = "http://localhost:8080/users/user-session";
