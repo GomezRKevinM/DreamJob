@@ -6,6 +6,8 @@ import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ServiceEmpleado {
 
@@ -19,6 +21,11 @@ public class ServiceEmpleado {
     public ResponseDto getEmpleadosByEmpresaId(long empresaId) {
         // Este método necesita que tengas la columna empresa_id en la tabla y el método en el repositorio
         return new ResponseDto("Método no implementado en repositorio aún", null, 501);
+    }
+
+    public ResponseDto list(){
+        List<Empleado> empleados = repository.findAll();
+        return new ResponseDto("Empleados encontrados",empleados,200);
     }
 
     public ResponseDto getEmpleadoById(long empleadoId) {

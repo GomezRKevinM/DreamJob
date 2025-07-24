@@ -18,6 +18,12 @@ public class EmpleadoController {
         this.ServiceEmpleado = ServiceEmpleado;
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<ResponseDto> listar(){
+        ResponseDto response = ServiceEmpleado.list();
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> getEmpleadoById(@PathVariable Long id) {
         ResponseDto response = ServiceEmpleado.getEmpleadoById(id);

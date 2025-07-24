@@ -23,8 +23,6 @@ public class EmpleadoRepository {
         Empleado empleado = new Empleado();
         empleado.setEmpleado_id(rs.getLong("empleado_id"));
         empleado.setUsuario_id(rs.getLong("user_id"));
-        empleado.setIdiomasJson(rs.getString("idiomas"));
-        empleado.setHabilidadesJson(rs.getString("habilidades"));
         empleado.setCv(rs.getString("cv"));
         return empleado;
     };
