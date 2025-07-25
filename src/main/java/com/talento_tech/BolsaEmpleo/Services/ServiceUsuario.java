@@ -122,8 +122,9 @@ public class ServiceUsuario {
                     ResponseDto aplicacionesDelEmpleado = serviceAplicacion.getByEmpleado(sesion.getRolEmpleado().getEmpleado_id());
                     List<Aplicacion> aplicacions = (List<Aplicacion>) aplicacionesDelEmpleado.getData();
                     ArrayList<OfertaEmpleo> ofertasAplicadas = new ArrayList<>();
-                    aplicacions.forEach(aplicacion ->{
-                        OfertaEmpleo oferta = (OfertaEmpleo) serviceOfertaEmpleo.obtenerPorId(aplicacion.getId()).getData();
+                    aplicacions.forEach( aplicacion -> {
+                        OfertaEmpleo oferta = (OfertaEmpleo) serviceOfertaEmpleo.obtenerPorId(aplicacion.getIdOfertaEmpleo()).getData();
+                        oferta.setAplicacion_id(aplicacion.getId());
                         ofertasAplicadas.add(oferta);
                     });
                     sesion.getRolEmpleado().setOfertasAplicadas(ofertasAplicadas);

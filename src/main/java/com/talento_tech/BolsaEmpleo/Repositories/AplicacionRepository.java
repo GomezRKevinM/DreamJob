@@ -21,7 +21,7 @@ public class AplicacionRepository {
 
     private RowMapper<Aplicacion> aplicacionRowMapper = (rs, rowNum) -> {
         Aplicacion aplicacion = new Aplicacion();
-        aplicacion.setId((rs.getLong("aplicacion_id")));
+        aplicacion.setId((rs.getLong("id")));
         aplicacion.setIdEmpleado(rs.getLong("empleado_id"));
         aplicacion.setIdOfertaEmpleo(rs.getLong("oferta_id"));
         aplicacion.setComentario(rs.getString("comentario"));
@@ -44,13 +44,12 @@ public class AplicacionRepository {
         }
     }
 
-    public Optional<Aplicacion> findByEmpleadoID(Long id){
+    public List<Aplicacion> findByEmpleadoID(Long id) throws Exception {
         String sql = "SELECT * FROM aplicaciones WHERE empleado_id = ?";
-        try{
-            Aplicacion aplicacion = jdbcTemplate.queryForObject(sql, new Object[]{id}, aplicacionRowMapper);
-            return Optional.ofNullable(aplicacion);
-        }catch (Exception e){
-            return Optional.empty();
+        try {
+            return jdbcTemplate.query(sql, new Object[]{id}, aplicacionRowMapper);
+        } catch (Exception e) {
+            throw new Exception("Error al obtener aplicaciones: " + e.getMessage());
         }
     }
 

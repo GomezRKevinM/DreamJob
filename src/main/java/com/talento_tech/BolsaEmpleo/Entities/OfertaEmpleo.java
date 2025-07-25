@@ -8,6 +8,7 @@ public class OfertaEmpleo {
     private long id;
     private long empleador_id;
     private long empresa_id;
+    private long aplicacion_id;
     private String cargo;
     private String ubicacion;
     private String descripcion;
@@ -214,5 +215,13 @@ public class OfertaEmpleo {
 
     public void setPostulados(ArrayList<Empleado> postulados) {
         this.postulados = postulados;
+    }
+
+    public long getAplicacion_id(){
+        return aplicacion_id;
+    }
+
+    public void setAplicacion_id(long aplicacion_id) {
+        this.aplicacion_id = aplicacion_id;
     }
 }

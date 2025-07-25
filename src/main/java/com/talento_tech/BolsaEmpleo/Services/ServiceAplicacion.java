@@ -95,11 +95,12 @@ public class ServiceAplicacion {
     }
 
     public ResponseDto getByEmpleado(Long empleadoId) {
-        Optional<Aplicacion> optional = aplicacionRepository.findByEmpleadoID(empleadoId);
-        if (optional.isPresent()) {
-            return new ResponseDto("Ofertas aplicadas del empleado", optional.get(), 200);
-        }else{
-            return new ResponseDto("No se enconraron ofertas aplicadas para este empleado", null, 404);
+        List<Aplicacion> optional = null;
+        try {
+            optional = aplicacionRepository.findByEmpleadoID(empleadoId);
+            return new  ResponseDto("Aplicaciones obtenidas exitosamente", optional, 200);
+        } catch (Exception e) {
+            return new  ResponseDto("Error al obtener las aplicaciones", e.getMessage(), 500);
         }
     }
 }
