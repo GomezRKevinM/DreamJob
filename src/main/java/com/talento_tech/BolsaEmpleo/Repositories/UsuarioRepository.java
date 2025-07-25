@@ -148,8 +148,8 @@ public class UsuarioRepository {
     }
 
     public int updateImagen(Usuario usuario) {
-        String sql = "UPDATE usuarios SET imagen = ?, username = ? WHERE user_id = ?";
-        return jdbcTemplate.update(sql, usuario.getImagen(),usuario.getUsername(), usuario.getId());
+        String sql = "UPDATE usuarios SET imagen = ? WHERE user_id = ?";
+        return jdbcTemplate.update(sql, usuario.getImagen(), usuario.getId());
     }
 
     public int updatePassword(Usuario usuario) {

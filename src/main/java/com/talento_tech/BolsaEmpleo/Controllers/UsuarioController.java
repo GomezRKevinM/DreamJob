@@ -119,42 +119,39 @@ public class UsuarioController {
     }
 
     @PostMapping("/upload-image/{id}")
-    @Operation(summary = "Subir imagen de perfil de un usuario")
-    public ResponseEntity<ResponseDto> uploadUserImage(@PathVariable Long id, @RequestParam("file") MultipartFile file,@RequestParam String username) {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(new ResponseDto("Archivo vacío", null, 400));
-        }
+    @Operation(summary = "Subir imagen de perfil")
+    public ResponseEntity<ResponseDto> uploadUserImage(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
 
         try {
-            // Define la carpeta donde se guardará la imagen
+            if (file == null || file.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ResponseDto("Archivo de imagen vacío", null, 400));
+            }
+
             String uploadDir = "./src/main/resources/static/assets/images/usuarios/";
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String fileName = "user_" + id + extension;
 
-            // Crear la carpeta si no existe
             File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
+            if (!directory.exists()) directory.mkdirs();
 
-            // Guardar el archivo
             Path filePath = Paths.get(uploadDir + fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Actualizar usuario con la ruta del archivo
             Usuario usuario = new Usuario();
             usuario.setId(id);
             usuario.setImagen(fileName);
-            usuario.setUsername(username);
 
-            ResponseDto response = serviceUsuario.editarUsuarioImagen(usuario); // Método que debes crear
+            ResponseDto response = serviceUsuario.editarUsuarioImagen(usuario);
             return ResponseEntity.status(response.getStatus()).body(response);
 
         } catch (IOException e) {
             return ResponseEntity.status(500).body(new ResponseDto("Error al guardar imagen", e.getMessage(), 500));
         }
     }
+
 
     @PatchMapping("/update-password")
     @Operation(summary = "Cambiar contraseña de un usuario")
