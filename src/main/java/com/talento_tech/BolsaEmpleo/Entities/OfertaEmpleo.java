@@ -25,6 +25,7 @@ public class OfertaEmpleo {
     private String nivelEstudios;
     private String experienciaLaboral;
     private String idiomas;
+    private String[] idiomasArray;
 
     private ArrayList<Empleado> postulados;
 
@@ -202,7 +203,8 @@ public class OfertaEmpleo {
     }
 
     public String[] getIdiomasArray(){
-        return idiomas.split(",");
+        idiomasArray = idiomas.split(",");
+        return idiomasArray;
     }
 
     public void setIdiomas(String idiomas) {

@@ -23,7 +23,7 @@ public class OfertaController {
         this.serviceAplicacion = serviceAplicacion;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ResponseDto> crear(@RequestBody OfertaEmpleo oferta) {
         ResponseDto response = serviceOfertaEmpleo.agregar(oferta);
         return ResponseEntity.status(response.getStatus()).body(response);
@@ -35,7 +35,7 @@ public class OfertaController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<ResponseDto> editar(@RequestBody OfertaEmpleo oferta) {
         ResponseDto response = serviceOfertaEmpleo.actualizar(oferta);
         return ResponseEntity.status(response.getStatus()).body(response);
