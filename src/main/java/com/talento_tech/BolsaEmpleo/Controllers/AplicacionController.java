@@ -88,4 +88,10 @@ public class AplicacionController {
         ResponseDto response = serviceAplicacion.eliminar(id);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
+    @GetMapping("list/empleado/{id}")
+    public ResponseEntity<ResponseDto> obtenerEmpleado(@PathVariable Long id) {
+        ResponseDto response = serviceAplicacion.getByEmpleado(id);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

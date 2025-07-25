@@ -93,4 +93,13 @@ public class ServiceAplicacion {
             return new ResponseDto("No se encontró la aplicación #" + id, null, 404);
         }
     }
+
+    public ResponseDto getByEmpleado(Long empleadoId) {
+        Optional<Aplicacion> optional = aplicacionRepository.findByEmpleadoID(empleadoId);
+        if (optional.isPresent()) {
+            return new ResponseDto("Ofertas aplicadas del empleado", optional.get(), 200);
+        }else{
+            return new ResponseDto("No se enconraron ofertas aplicadas para este empleado", null, 404);
+        }
+    }
 }

@@ -1,17 +1,14 @@
 package com.talento_tech.BolsaEmpleo.Services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.talento_tech.BolsaEmpleo.Entities.*;
 import com.talento_tech.BolsaEmpleo.Repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.talento_tech.BolsaEmpleo.Entities.Empleado;
-import com.talento_tech.BolsaEmpleo.Entities.Empleador;
-import com.talento_tech.BolsaEmpleo.Entities.Empresa;
-import com.talento_tech.BolsaEmpleo.Entities.UserSesion;
-import com.talento_tech.BolsaEmpleo.Entities.Usuario;
 import com.talento_tech.BolsaEmpleo.dto.ResponseDto;
 
 @Service
@@ -20,6 +17,8 @@ public class ServiceUsuario {
     private final ServiceEmpleado serviceEmpleado;
     private final ServiceEmpresa serviceEmpresa;
     private final ServiceEmpleador serviceEmpleador;
+    private final ServiceAplicacion serviceAplicacion;
+    private final ServiceOfertaEmpleo serviceOfertaEmpleo;
 
     private Usuario usuarioEnSesion;
     private UserSesion sesion;
@@ -28,11 +27,15 @@ public class ServiceUsuario {
     public ServiceUsuario(UsuarioRepository usuarioRepository,
                           ServiceEmpleado serviceEmpleado,
                           ServiceEmpresa serviceEmpresa,
-                          ServiceEmpleador serviceEmpleador) {
+                          ServiceEmpleador serviceEmpleador,
+                          ServiceAplicacion serviceAplicacion,
+                          ServiceOfertaEmpleo serviceOfertaEmpleo) {
         this.usuarioRepository = usuarioRepository;
         this.serviceEmpleado = serviceEmpleado;
         this.serviceEmpresa = serviceEmpresa;
         this.serviceEmpleador = serviceEmpleador;
+        this.serviceAplicacion = serviceAplicacion;
+        this.serviceOfertaEmpleo = serviceOfertaEmpleo;
     }
 
     public ResponseDto getAllUsers() {
@@ -116,6 +119,14 @@ public class ServiceUsuario {
                 case "empleado":
                     ResponseDto empleadoResp = serviceEmpleado.getEmpleadoByUser(usuarioEnSesion.getId());
                     sesion.setRolEmpleado((Empleado) empleadoResp.getData());
+                    ResponseDto aplicacionesDelEmpleado = serviceAplicacion.getByEmpleado(sesion.getRolEmpleado().getEmpleado_id());
+                    List<Aplicacion> aplicacions = (List<Aplicacion>) aplicacionesDelEmpleado.getData();
+                    ArrayList<OfertaEmpleo> ofertasAplicadas = new ArrayList<>();
+                    aplicacions.forEach(aplicacion ->{
+                        OfertaEmpleo oferta = (OfertaEmpleo) serviceOfertaEmpleo.obtenerPorId(aplicacion.getId()).getData();
+                        ofertasAplicadas.add(oferta);
+                    });
+                    sesion.getRolEmpleado().setOfertasAplicadas(ofertasAplicadas);
                     break;
                 case "empresa":
                     ResponseDto empresaResp = serviceEmpresa.getEmpresaByUser(usuarioEnSesion.getId());
