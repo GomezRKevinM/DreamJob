@@ -120,6 +120,7 @@ public class ServiceUsuario {
                     ResponseDto empleadoResp = serviceEmpleado.getEmpleadoByUser(usuarioEnSesion.getId());
                     sesion.setRolEmpleado((Empleado) empleadoResp.getData());
                     ResponseDto aplicacionesDelEmpleado = serviceAplicacion.getByEmpleado(sesion.getRolEmpleado().getEmpleado_id());
+                    @SuppressWarnings("unchecked")
                     List<Aplicacion> aplicacions = (List<Aplicacion>) aplicacionesDelEmpleado.getData();
                     ArrayList<OfertaEmpleo> ofertasAplicadas = new ArrayList<>();
                     aplicacions.forEach( aplicacion -> {
